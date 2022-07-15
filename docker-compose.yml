@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  smartmakran-backend:
+    build: .
+    image: 'smartmakran-backend'
+    container_name: smartmakran-backend
+    networks:
+      - smartmakran
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    volumes:
+      - ./files:/home/node/app/files
+    restart: unless-stopped
+
+networks:
+  smartmakran:
+    external:
+      name: smartmakran

@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  smartmakran-backend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: 'smartmakran-backend-dev'
+    container_name: smartmakran-backend-dev
+    networks:
+      - smartmakran
+    ports:
+      - 3300:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
+    volumes:
+      - ./:/home/node/app
+      - /home/node/app/node_modules/
+    restart: unless-stopped
+
+networks:
+  smartmakran:
+    external:
+      name: smartmakran

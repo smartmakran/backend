@@ -1,0 +1,14 @@
+node_modules/
+.vscode/
+test/
+dist/
+.editorconfig
+.gitignore
+.prettierrc
+README.md
+*.log
+nodemon-debug.json
+nodemon.json
+test.env
+tsconfig.spec.json
+webpack.config.js
