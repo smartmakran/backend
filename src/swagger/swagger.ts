@@ -5,6 +5,8 @@ import { createReadStream } from 'fs';
 import * as jwt from 'jsonwebtoken';
 import * as Cookies from 'cookies';
 import { join } from 'path';
+import { AuthModule } from 'src/modules/auth/auth.module';
+import { DashboardModule } from 'src/modules/dashboard/dashboard.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
@@ -98,7 +100,9 @@ export default function setupSwagger(
     )
     .build();
   const document = SwaggerModule.createDocument(app, options, {
-    include: [],
+    include: [AuthModule, DashboardModule],
   });
-  SwaggerModule.setup(SWAGGER_ENDPOINT, app, document);
+  SwaggerModule.setup(SWAGGER_ENDPOINT, app, document, {
+    customCss: `.opblock-summary-description{direction: rtl; margin-right: 10px;}`,
+  });
 }

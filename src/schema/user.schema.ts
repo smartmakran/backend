@@ -1,6 +1,7 @@
 import { Base } from './base.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Role } from 'src/modules/auth/enum/role.enum';
 
 export type UserDocument = User & Document;
 
@@ -10,32 +11,33 @@ export class User extends Base {
     type: String,
     required: false,
   })
-  firstName: string;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  lastName: string;
+  fullName: string;
 
   @Prop({
     type: String,
     required: true,
-    minlength: 6,
-    maxlength: 20,
-  })
-  username: string;
-
-  @Prop({
-    type: String,
-    required: true,
+    unique: true,
   })
   phone: string;
 
   @Prop({
     type: String,
     required: true,
-    unique: true,
+    minlength: 8,
+    maxlength: 64,
+  })
+  password: string;
+
+  @Prop({
+    type: String,
+    enum: Role,
+    default: Role.USER,
+  })
+  role: string;
+
+  @Prop({
+    type: String,
+    required: false,
   })
   email: string;
 
@@ -44,14 +46,6 @@ export class User extends Base {
     required: false,
   })
   avatar: string;
-
-  @Prop({
-    type: String,
-    required: true,
-    minlength: 6,
-    maxlength: 20,
-  })
-  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

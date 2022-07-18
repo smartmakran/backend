@@ -1,12 +1,13 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import setupSwagger from './swagger/swagger';
-
 import { addAliases } from 'module-alias';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+
 if (process.env.NODE_ENV === 'production') {
   addAliases({
     '@services': __dirname + '/services',
@@ -23,6 +24,8 @@ async function bootstrap() {
       AppModule,
       adapter,
     );
+
+    app.useGlobalGuards(new JwtAuthGuard(new Reflector()));
 
     setupSwagger(app, adapter.getInstance());
 
