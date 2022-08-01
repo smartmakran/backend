@@ -18,7 +18,6 @@ export class AuthController {
   @ApiOperation({ summary: 'ثبت‌نام' })
   @ApiResponse({
     type: RegisterResponseDto,
-    description: 'ثبت‌نام با موفقیت انجام شد',
   })
   async register(
     @Body() payload: RegisterBodyDto,
@@ -31,7 +30,6 @@ export class AuthController {
   @ApiOperation({ summary: 'ورود' })
   @ApiResponse({
     type: LoginResponseDto,
-    description: 'ورود با موفقیت انجام شد',
   })
   async login(@Body() payload: LoginBodyDto): Promise<LoginResponseDto> {
     return await this.authService.login(payload);

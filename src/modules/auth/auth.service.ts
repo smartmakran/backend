@@ -1,17 +1,17 @@
-import { BadRequestException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { Model } from 'mongoose';
-import { JwtPayload } from 'src/modules/auth/interface/jwt-payload.interface';
-import { User, UserDocument } from 'src/schema/user.schema';
+import { User, UserDocument } from 'schema/user.schema';
 import {
   LoginBodyDto,
   LoginResponseDto,
   RegisterBodyDto,
   RegisterResponseDto,
 } from './dto';
+import { JwtPayload } from './interface/jwt-payload.interface';
 
 export class AuthService {
   constructor(
@@ -42,14 +42,13 @@ export class AuthService {
   async login(payload: LoginBodyDto): Promise<LoginResponseDto> {
     const user = await this.userModel.findOne({ phone: payload.phone });
     if (!user || !this.comparePassword(payload.password, user.password)) {
-      throw new BadRequestException('شماره تلفن یا رمز عبور اشتباه است');
+      throw new UnauthorizedException('کاربری با این مشخصات یافت نشد.');
     }
 
     const token = this.generateToken(user);
 
     return plainToInstance(LoginResponseDto, {
-      status: 'success',
-      message: 'ورود با موفقیت انجام شد',
+      user,
       token,
     });
   }

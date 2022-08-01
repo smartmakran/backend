@@ -1,12 +1,12 @@
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import Cookies = require('cookies');
 import { FastifyInstance } from 'fastify';
-import { createReadStream } from 'fs';
-import * as jwt from 'jsonwebtoken';
-import * as Cookies from 'cookies';
 import { join } from 'path';
-import { AuthModule } from 'src/modules/auth/auth.module';
-import { DashboardModule } from 'src/modules/dashboard/dashboard.module';
+import * as jwt from 'jsonwebtoken';
+import { createReadStream } from 'fs';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AuthModule } from '@modules/auth/auth.module';
+import { DashboardModule } from '@modules/dashboard/dashboard.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
