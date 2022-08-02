@@ -1,3 +1,4 @@
+import { FarmModule } from '@modules/farm/farm.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -20,6 +21,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     ),
     AuthModule,
     DashboardModule,
+    FarmModule,
   ],
   controllers: [],
   providers: [],

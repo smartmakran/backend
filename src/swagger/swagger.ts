@@ -7,6 +7,7 @@ import { createReadStream } from 'fs';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AuthModule } from '@modules/auth/auth.module';
 import { DashboardModule } from '@modules/dashboard/dashboard.module';
+import { FarmModule } from '@modules/farm/farm.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
@@ -100,7 +101,7 @@ export default function setupSwagger(
     )
     .build();
   const document = SwaggerModule.createDocument(app, options, {
-    include: [AuthModule, DashboardModule],
+    include: [AuthModule, DashboardModule, FarmModule],
   });
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, document, {
     customCss: `.opblock-summary-description{direction: rtl; margin-right: 10px;}`,
