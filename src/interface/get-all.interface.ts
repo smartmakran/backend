@@ -1,3 +1,3 @@
-interface IGetAll<T> {
-  getAll(): Promise<{ count: number; data: T[] }>;
+export interface IGetAll<Q, R> {
+  getAll(query: Q): Promise<R>;
 }

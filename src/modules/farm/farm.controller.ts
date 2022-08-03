@@ -10,18 +10,31 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { FarmCreateBodyDto } from './dto/create-body.dto';
+import { GetAllResponseDto } from 'dto';
+import { IGetAll, ICreate } from 'interface';
+import {
+  GetAllFarmQueryDto,
+  GetOneFarmResponseDto,
+  FarmCreateBodyDto,
+} from './dto';
+
 import { FarmService } from './farm.service';
 
 @Controller('farm')
 @ApiTags('Farm')
 @ApiSecurity('Authorization')
-export class FarmController implements ICreate<FarmCreateBodyDto> {
+export class FarmController
+  implements
+    IGetAll<GetAllFarmQueryDto, GetAllResponseDto<GetOneFarmResponseDto>>,
+    ICreate<FarmCreateBodyDto>
+{
   @Inject() private readonly farmService: FarmService;
 
   @Get()
   @ApiOperation({ summary: 'لیست تمام مزرعه‌ها' })
-  public async getAll(@Query() query: any): Promise<any> {
+  public async getAll(
+    @Query() query: GetAllFarmQueryDto,
+  ): Promise<GetAllResponseDto<GetOneFarmResponseDto>> {
     return await this.farmService.getAll(query);
   }
 

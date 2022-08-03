@@ -1,3 +1,3 @@
-interface ICreate<P> {
+export interface ICreate<P> {
   create(payload: P): Promise<void>;
 }
