@@ -9,6 +9,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { DashboardModule } from '@modules/dashboard/dashboard.module';
 import { FarmModule } from '@modules/farm/farm.module';
 import { PoolModule } from '@modules/pool/pool.module';
+import { SensorModule } from '@modules/sensor/sensor.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
@@ -102,7 +103,13 @@ export default function setupSwagger(
     )
     .build();
   const document = SwaggerModule.createDocument(app, options, {
-    include: [AuthModule, DashboardModule, FarmModule, PoolModule],
+    include: [
+      AuthModule,
+      DashboardModule,
+      FarmModule,
+      PoolModule,
+      SensorModule,
+    ],
   });
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, document, {
     customCss: `.opblock-summary-description{direction: rtl; margin-right: 10px;}`,

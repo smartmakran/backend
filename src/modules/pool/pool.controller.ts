@@ -20,7 +20,7 @@ import {
 
 import { PoolService } from './pool.service';
 
-@Controller('Pool')
+@Controller('pool')
 @ApiTags('Pool')
 @ApiSecurity('Authorization')
 export class PoolController
