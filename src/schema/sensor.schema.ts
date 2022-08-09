@@ -5,7 +5,9 @@ import { Document, ObjectId, SchemaTypes } from 'mongoose';
 export type SensorDocument = Sensor & Document;
 
 @Schema({ collection: 'sensors' })
-export class Sensor extends Base {
+export class Sensor {
+  _id: ObjectId;
+
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
@@ -52,6 +54,12 @@ export class Sensor extends Base {
     type: Number,
   })
   temperature: number;
+
+  @Prop({
+    required: true,
+    default: Date.now,
+  })
+  createdAt: Date;
 }
 
 export const SensorSchema = SchemaFactory.createForClass(Sensor);
