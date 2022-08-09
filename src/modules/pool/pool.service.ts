@@ -1,9 +1,10 @@
-import { UserService } from '@modules/user/user.service';
-import { Inject } from '@nestjs/common';
+import { FarmService } from '@modules/farm/farm.service';
+import { Inject, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
 import { GetAllResponseDto } from 'dto';
-import { ICreate, IGetAll } from 'interface';
+import { ParamIdDto } from 'dto/paramId.dto';
+import { ICreate, IGetAll, IGetOne } from 'interface';
 import { Model } from 'mongoose';
 import { Pool, PoolDocument } from 'schema/Pool.schema';
 import { GetAllPoolQueryDto, GetOnePoolResponseDto } from './dto';
@@ -12,10 +13,11 @@ import { PoolCreateBodyDto } from './dto/create-body.dto';
 export class PoolService
   implements
     IGetAll<GetAllPoolQueryDto, GetAllResponseDto<GetOnePoolResponseDto>>,
+    IGetOne<GetOnePoolResponseDto>,
     ICreate<PoolCreateBodyDto>
 {
   @InjectModel(Pool.name) private readonly poolModel: Model<PoolDocument>;
-  @Inject() private readonly userService: UserService;
+  @Inject() private readonly farmService: FarmService;
 
   async getAll(
     query: GetAllPoolQueryDto,
@@ -34,6 +36,7 @@ export class PoolService
 
   async create(payload: PoolCreateBodyDto): Promise<any> {
     const { name, farm, dimensions } = payload;
+    await this.farmService.getOrThrowError(farm);
     return await this.poolModel.create({
       farm,
       name,
@@ -41,15 +44,33 @@ export class PoolService
     });
   }
 
-  async get(params: any): Promise<any> {
-    return;
+  async getOne(params: ParamIdDto): Promise<GetOnePoolResponseDto> {
+    const pool = await this.getOrThrowError(params.id);
+    return plainToInstance(GetOnePoolResponseDto, pool);
   }
 
-  async update(params: any, payload: any): Promise<any> {
-    return;
+  async update(params: ParamIdDto, payload: PoolCreateBodyDto): Promise<void> {
+    const pool = await this.getOrThrowError(params.id);
+    const { name, dimensions } = payload;
+
+    pool.name = name;
+    pool.dimensions = dimensions;
+
+    await pool.save();
   }
 
-  async delete(params: any): Promise<any> {
-    return;
+  async delete(params: ParamIdDto): Promise<void> {
+    const pool = await this.getOrThrowError(params.id);
+    pool.deleted = true;
+    pool.deletedAt = new Date();
+    await pool.save();
+  }
+
+  async getOrThrowError(id: string): Promise<PoolDocument> {
+    const pool = await this.poolModel.findById(id);
+    if (!pool || pool.deleted) {
+      throw new NotFoundException('استخری با این شناسه یافت نشد.');
+    }
+    return pool;
   }
 }

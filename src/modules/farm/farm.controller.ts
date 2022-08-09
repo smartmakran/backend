@@ -8,14 +8,16 @@ import {
   Post,
   Put,
   Query,
+  SetMetadata,
 } from '@nestjs/common';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
-import { GetAllResponseDto } from 'dto';
-import { IGetAll, ICreate } from 'interface';
+import { ParamIdDto } from 'dto/paramId.dto';
+import { IGetAll, ICreate, IGetOne, IUpdate } from 'interface';
 import {
   GetAllFarmQueryDto,
   GetOneFarmResponseDto,
   FarmCreateBodyDto,
+  GetAllFarmResponseDto,
 } from './dto';
 
 import { FarmService } from './farm.service';
@@ -25,8 +27,10 @@ import { FarmService } from './farm.service';
 @ApiSecurity('Authorization')
 export class FarmController
   implements
-    IGetAll<GetAllFarmQueryDto, GetAllResponseDto<GetOneFarmResponseDto>>,
-    ICreate<FarmCreateBodyDto>
+    IGetAll<GetAllFarmQueryDto, GetAllFarmResponseDto>,
+    IGetOne<GetOneFarmResponseDto>,
+    ICreate<FarmCreateBodyDto>,
+    IUpdate<FarmCreateBodyDto>
 {
   @Inject() private readonly farmService: FarmService;
 
@@ -34,7 +38,7 @@ export class FarmController
   @ApiOperation({ summary: 'لیست تمام مزرعه‌ها' })
   public async getAll(
     @Query() query: GetAllFarmQueryDto,
-  ): Promise<GetAllResponseDto<GetOneFarmResponseDto>> {
+  ): Promise<GetAllFarmResponseDto> {
     return await this.farmService.getAll(query);
   }
 
@@ -46,22 +50,24 @@ export class FarmController
 
   @Get(':id')
   @ApiOperation({ summary: 'جزییات مزرعه' })
-  public async get(@Param() params: any): Promise<any> {
-    return await this.farmService.get(params.id);
+  public async getOne(
+    @Param() params: ParamIdDto,
+  ): Promise<GetOneFarmResponseDto> {
+    return await this.farmService.getOne(params);
   }
 
   @Put(':id')
   @ApiOperation({ summary: 'ویرایش مزرعه' })
   public async update(
-    @Param() params: any,
-    @Body() payload: any,
-  ): Promise<any> {
-    return await this.farmService.update(params.id, payload);
+    @Param() params: ParamIdDto,
+    @Body() payload: FarmCreateBodyDto,
+  ): Promise<void> {
+    await this.farmService.update(params, payload);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'حذف مزرعه' })
-  public async delete(@Param() params: any): Promise<any> {
-    return await this.farmService.delete(params.id);
+  public async delete(@Param() params: ParamIdDto): Promise<void> {
+    await this.farmService.delete(params);
   }
 }

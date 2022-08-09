@@ -2,10 +2,12 @@ import { Base } from './base.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Role } from '@modules/auth/enum/role.enum';
+import { IsUUID } from 'class-validator';
+import { randomUUID } from 'crypto';
 
 export type UserDocument = User & Document;
 
-@Schema({ collection: 'users' })
+@Schema({ collection: 'users', timestamps: true })
 export class User extends Base {
   @Prop({
     type: String,
@@ -46,6 +48,13 @@ export class User extends Base {
     required: false,
   })
   avatar: string;
+
+  @Prop({
+    type: String,
+    required: true,
+    default: randomUUID,
+  })
+  sensorsKey: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

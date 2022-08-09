@@ -3,13 +3,20 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Inject,
   Param,
   Post,
   Put,
   Query,
+  SetMetadata,
 } from '@nestjs/common';
-import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetAllResponseDto } from 'dto';
 import { IGetAll, ICreate } from 'interface';
 import {
@@ -22,7 +29,6 @@ import { SensorService } from './sensor.service';
 
 @Controller('sensor')
 @ApiTags('Sensor')
-@ApiSecurity('Authorization')
 export class SensorController
   implements
     IGetAll<GetAllSensorQueryDto, GetAllResponseDto<GetOneSensorResponseDto>>,
@@ -31,6 +37,7 @@ export class SensorController
   @Inject() private readonly sensorService: SensorService;
 
   @Get()
+  @ApiSecurity('Authorization')
   @ApiOperation({ summary: 'لیست تمام اطلاعات‌ها' })
   public async getAll(
     @Query() query: GetAllSensorQueryDto,
@@ -39,7 +46,10 @@ export class SensorController
   }
 
   @Post()
+  @HttpCode(200)
   @ApiOperation({ summary: 'ثبت اطلاعات جدید' })
+  @ApiResponse({ status: 200 })
+  @SetMetadata('isPublic', true)
   public async create(@Body() payload: SensorCreateBodyDto): Promise<void> {
     await this.sensorService.create(payload);
   }

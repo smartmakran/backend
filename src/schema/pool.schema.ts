@@ -15,7 +15,7 @@ export class PoolDimensions {
   depth: number;
 }
 
-@Schema({ collection: 'pools' })
+@Schema({ collection: 'pools', timestamps: true })
 export class Pool extends Base {
   @Prop({
     type: SchemaTypes.ObjectId,

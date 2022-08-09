@@ -12,5 +12,6 @@ import { FarmService } from './farm.service';
   ],
   controllers: [FarmController],
   providers: [FarmService],
+  exports: [FarmService],
 })
 export class FarmModule {}

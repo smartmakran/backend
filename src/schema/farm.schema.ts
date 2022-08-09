@@ -39,7 +39,7 @@ export class FarmAddress {
   coordinates: number[];
 }
 
-@Schema({ collection: 'farms' })
+@Schema({ collection: 'farms', timestamps: true })
 export class Farm extends Base {
   @Prop({
     type: String,

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsNumber } from 'class-validator';
+import { IsMongoId, IsNumber, IsUUID } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class SensorCreateBodyDto {
@@ -65,4 +65,11 @@ export class SensorCreateBodyDto {
   })
   @IsMongoId({ message: 'شناسه استخر باید از نوع شناسه باشد' })
   pool: Types.ObjectId;
+
+  @ApiProperty({
+    example: '6bcb85f0-6317-4c28-b589-4c5d1886ca8c',
+    description: 'کلید سنسور استخر',
+  })
+  @IsUUID('4', { message: 'کلید سنسور باید از نوع uuid باشد.' })
+  sensorsKey: string;
 }

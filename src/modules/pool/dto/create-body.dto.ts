@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsMongoId, IsNumber, IsString } from 'class-validator';
 import { Types } from 'mongoose';
 
@@ -28,6 +29,7 @@ export class PoolCreateBodyDto {
     type: PoolDimensionsCreateDto,
     description: 'ابعاد استخر',
   })
+  @Type(() => PoolDimensionsCreateDto)
   dimensions: PoolDimensionsCreateDto;
 
   @ApiProperty({
@@ -35,5 +37,5 @@ export class PoolCreateBodyDto {
     description: 'شناسه مزرعه',
   })
   @IsMongoId({ message: 'شناسه مزرعه باید از نوع شناسه باشد' })
-  farm: Types.ObjectId;
+  farm: string;
 }

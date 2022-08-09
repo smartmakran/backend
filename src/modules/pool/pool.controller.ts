@@ -11,7 +11,8 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { GetAllResponseDto } from 'dto';
-import { IGetAll, ICreate } from 'interface';
+import { ParamIdDto } from 'dto/paramId.dto';
+import { IGetAll, ICreate, IGetOne } from 'interface';
 import {
   GetAllPoolQueryDto,
   GetOnePoolResponseDto,
@@ -26,6 +27,7 @@ import { PoolService } from './pool.service';
 export class PoolController
   implements
     IGetAll<GetAllPoolQueryDto, GetAllResponseDto<GetOnePoolResponseDto>>,
+    IGetOne<GetOnePoolResponseDto>,
     ICreate<PoolCreateBodyDto>
 {
   @Inject() private readonly PoolService: PoolService;
@@ -46,8 +48,10 @@ export class PoolController
 
   @Get(':id')
   @ApiOperation({ summary: 'جزییات استخر' })
-  public async get(@Param() params: any): Promise<any> {
-    return await this.PoolService.get(params.id);
+  public async getOne(
+    @Param() params: ParamIdDto,
+  ): Promise<GetOnePoolResponseDto> {
+    return await this.PoolService.getOne(params);
   }
 
   @Put(':id')

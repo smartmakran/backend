@@ -1,5 +1,5 @@
 import { UserService } from '@modules/user/user.service';
-import { Inject } from '@nestjs/common';
+import { ConflictException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
 import { GetAllResponseDto } from 'dto';
@@ -35,6 +35,7 @@ export class SensorService
   async create(payload: SensorCreateBodyDto): Promise<any> {
     const {
       pool,
+      sensorsKey,
       ph,
       oxygen,
       orp,
@@ -44,6 +45,14 @@ export class SensorService
       nitrate,
       temperature,
     } = payload;
+
+    const pools = await this.userService.getUserPoolsBySensorsKey(sensorsKey);
+    const pool_ids = pools.map((pool) => pool.pools._id.toString());
+
+    if (!pool_ids.includes(pool.toString())) {
+      throw new ConflictException('شناسه استخر یا کلید سنسورها نادرست است.');
+    }
+
     return await this.sensorModel.create({
       pool,
       ph,

@@ -1,3 +1,4 @@
+import { FarmModule } from '@modules/farm/farm.module';
 import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,7 +9,7 @@ import { PoolService } from './pool.service';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Pool.name, schema: PoolSchema }]),
-    UserModule,
+    FarmModule,
   ],
   controllers: [PoolController],
   providers: [PoolService],

@@ -1,5 +1,5 @@
-import { Types } from 'mongoose';
+import { ParamIdDto } from 'dto/paramId.dto';
 
-interface IGetOne<T> {
-  getOne(id: Types.ObjectId): Promise<T>;
+export interface IGetOne<T> {
+  getOne(params: ParamIdDto): Promise<T>;
 }

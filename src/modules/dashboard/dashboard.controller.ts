@@ -8,7 +8,7 @@ import {
 import { DashboardService } from './dashboard.service';
 
 @Controller('dashboard')
-@ApiTags('داشبورد')
+@ApiTags('Dashboard')
 @ApiSecurity('Authorization')
 export class DashboardController {
   @Inject() private readonly dashboardService: DashboardService;

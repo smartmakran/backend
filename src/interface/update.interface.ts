@@ -1,5 +1,5 @@
-import { Types } from 'mongoose';
+import { ParamIdDto } from 'dto/paramId.dto';
 
-interface IUpdate<P> {
-  update(id: Types.ObjectId, payload: P): Promise<void>;
+export interface IUpdate<P> {
+  update(params: ParamIdDto, payload: P): Promise<void>;
 }

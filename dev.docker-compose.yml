@@ -3,7 +3,7 @@ services:
   smartmakran-backend-dev:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: devDockerfile
     image: 'smartmakran-backend-dev'
     container_name: smartmakran-backend-dev
     networks:
