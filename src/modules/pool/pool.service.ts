@@ -6,7 +6,7 @@ import { GetAllResponseDto } from 'dto';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { ICreate, IGetAll, IGetOne } from 'interface';
 import { Model } from 'mongoose';
-import { Pool, PoolDocument } from 'schema/Pool.schema';
+import { Pool, PoolDocument } from 'schema/pool.schema';
 import { GetAllPoolQueryDto, GetOnePoolResponseDto } from './dto';
 import { PoolCreateBodyDto } from './dto/create-body.dto';
 

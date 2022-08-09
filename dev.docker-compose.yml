@@ -1,13 +1,13 @@
 version: '3.7'
 services:
-  smartmakran-backend-dev:
+  backend:
     build:
       context: .
       dockerfile: devDockerfile
     image: 'smartmakran-backend-dev'
-    container_name: smartmakran-backend-dev
+    container_name: backend
     networks:
-      - smartmakran
+      - smart
     ports:
       - 3300:80
     logging:
@@ -21,6 +21,5 @@ services:
     restart: unless-stopped
 
 networks:
-  smartmakran:
-    external:
-      name: smartmakran
+  smart:
+      name: "smart"

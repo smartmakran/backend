@@ -5,7 +5,7 @@ services:
     image: 'smartmakran-backend'
     container_name: smartmakran-backend
     networks:
-      - smartmakran
+      - smart
     logging:
       driver: "json-file"
       options:
@@ -16,6 +16,5 @@ services:
     restart: unless-stopped
 
 networks:
-  smartmakran:
-    external:
-      name: smartmakran
+  smart:
+      name: smart

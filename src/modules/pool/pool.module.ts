@@ -3,7 +3,7 @@ import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Pool, PoolSchema } from 'schema/pool.schema';
-import { PoolController } from './Pool.controller';
+import { PoolController } from './pool.controller';
 import { PoolService } from './pool.service';
 
 @Module({
