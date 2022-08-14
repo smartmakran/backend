@@ -1,10 +1,11 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Headers, Inject, Param } from '@nestjs/common';
 import {
   ApiOperation,
   ApiResponse,
   ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
+import { ParamIdDto } from 'dto/paramId.dto';
 import { DashboardService } from './dashboard.service';
 
 @Controller('dashboard')
@@ -13,10 +14,10 @@ import { DashboardService } from './dashboard.service';
 export class DashboardController {
   @Inject() private readonly dashboardService: DashboardService;
 
-  @Get()
+  @Get(':id')
   @ApiOperation({ summary: 'داشبورد' })
   @ApiResponse({ status: 200, type: String })
-  async dashboard() {
-    return await this.dashboardService.dashboard();
+  async dashboard(@Param() params: ParamIdDto) {
+    return await this.dashboardService.dashboard(params);
   }
 }

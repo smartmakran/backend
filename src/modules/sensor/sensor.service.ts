@@ -66,15 +66,7 @@ export class SensorService
     });
   }
 
-  async get(params: any): Promise<any> {
-    return;
-  }
-
-  async update(params: any, payload: any): Promise<any> {
-    return;
-  }
-
-  async delete(params: any): Promise<any> {
-    return;
+  async getSensorDataByPoolId(pool: string): Promise<any> {
+    return await this.sensorModel.find({ pool });
   }
 }
