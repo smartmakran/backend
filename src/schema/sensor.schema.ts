@@ -56,6 +56,7 @@ export class Sensor {
   temperature: number;
 
   @Prop({
+    type: Date,
     required: true,
     default: Date.now,
   })

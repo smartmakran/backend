@@ -1,6 +1,7 @@
 import { FarmModule } from '@modules/farm/farm.module';
 import { PoolModule } from '@modules/pool/pool.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
+import { SocketModule } from '@modules/socket/socket.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -26,6 +27,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     FarmModule,
     PoolModule,
     SensorModule,
+    SocketModule,
   ],
   controllers: [],
   providers: [],

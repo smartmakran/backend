@@ -1,9 +1,11 @@
+import { SocketGateway } from '@modules/socket/socket.gateway';
 import { UserService } from '@modules/user/user.service';
 import { ConflictException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
 import { GetAllResponseDto } from 'dto';
 import { ICreate, IGetAll } from 'interface';
+import { DateTime } from 'luxon';
 import { Model } from 'mongoose';
 import { Sensor, SensorDocument } from 'schema/sensor.schema';
 import { GetAllSensorQueryDto, GetOneSensorResponseDto } from './dto';
@@ -16,13 +18,18 @@ export class SensorService
 {
   @InjectModel(Sensor.name) private readonly sensorModel: Model<SensorDocument>;
   @Inject() private readonly userService: UserService;
+  @Inject() private readonly socketGateway: SocketGateway;
 
   async getAll(
     query: GetAllSensorQueryDto,
   ): Promise<GetAllResponseDto<GetOneSensorResponseDto>> {
     const { skip, limit } = query;
     const [data, count] = await Promise.all([
-      this.sensorModel.find({ skip, limit }),
+      this.sensorModel.find({
+        createdAt: DateTime.now().minus({ day: 1 }).toJSDate(),
+        skip,
+        limit,
+      }),
       this.sensorModel.countDocuments(),
     ]);
 
@@ -32,7 +39,7 @@ export class SensorService
     });
   }
 
-  async create(payload: SensorCreateBodyDto): Promise<any> {
+  async create(payload: SensorCreateBodyDto): Promise<void> {
     const {
       pool,
       sensorsKey,
@@ -53,7 +60,7 @@ export class SensorService
       throw new ConflictException('شناسه استخر یا کلید سنسورها نادرست است.');
     }
 
-    return await this.sensorModel.create({
+    await this.sensorModel.create({
       pool,
       ph,
       oxygen,
@@ -64,9 +71,15 @@ export class SensorService
       nitrate,
       temperature,
     });
+
+    const data = await this.getSensorDataByPoolId(pool.toString());
+    this.socketGateway.server.emit('message', data);
   }
 
   async getSensorDataByPoolId(pool: string): Promise<any> {
-    return await this.sensorModel.find({ pool });
+    return await this.sensorModel.find({
+      createdAt: { $gte: DateTime.now().minus({ day: 1 }).toJSDate() },
+      pool,
+    });
   }
 }
