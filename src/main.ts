@@ -8,6 +8,7 @@ import setupSwagger from './swagger/swagger';
 import { addAliases } from 'module-alias';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ValidationPipe } from '@nestjs/common';
+import { RolesGuard } from 'guards/roles.guard';
 
 if (process.env.NODE_ENV === 'production') {
   addAliases({
@@ -26,7 +27,9 @@ async function bootstrap() {
       adapter,
     );
 
-    app.useGlobalGuards(new JwtAuthGuard(new Reflector()));
+    const reflector = new Reflector();
+    app.useGlobalGuards(new JwtAuthGuard(reflector));
+    app.useGlobalGuards(new RolesGuard(reflector));
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,

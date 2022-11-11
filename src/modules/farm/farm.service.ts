@@ -55,7 +55,7 @@ export class FarmService
   }
 
   async create(payload: FarmCreateBodyDto): Promise<any> {
-    const { name, address, phones, owner } = payload;
+    const { name, address, phones, owner, expert } = payload;
     await this.userService.getOrThrowError({ id: owner });
     const existedPhones = await this.farmModel.find({
       phones: { $in: phones },
@@ -68,6 +68,7 @@ export class FarmService
       address,
       phones,
       owner,
+      expert,
     });
   }
 

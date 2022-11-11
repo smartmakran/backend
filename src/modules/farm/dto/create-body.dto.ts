@@ -2,16 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsArray,
-  IsInstance,
   IsMongoId,
   IsNumber,
   IsPhoneNumber,
   IsString,
-  Validate,
-  ValidateNested,
 } from 'class-validator';
 import { Country } from 'enum/country.enum';
-import { Types } from 'mongoose';
 
 export class FarmAddressCreateDto {
   @ApiProperty({ example: Country.Iran, enum: Country })
@@ -70,4 +66,11 @@ export class FarmCreateBodyDto {
   })
   @IsMongoId({ message: 'شناسه کاربر باید از نوع شناسه باشد' })
   owner: string;
+
+  @ApiProperty({
+    example: '5d8f8f8f8f8f8f8f8f8f8f8f',
+    description: 'شناسه کارشناس',
+  })
+  @IsMongoId({ message: 'شناسه کارشناس باید از نوع شناسه باشد' })
+  expert: string;
 }

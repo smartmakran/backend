@@ -1,8 +1,23 @@
-import { Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import { Roles } from '@modules/auth/decorators/roles.decorator';
+import { Role } from '@modules/auth/enum/role.enum';
+import {
+  Get,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Controller,
+} from '@nestjs/common';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { User } from 'schema/user.schema';
 import { UserService } from './user.service';
 
+@Controller('users')
+@Roles(Role.ADMIN)
+@ApiSecurity('Authorization')
+@ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

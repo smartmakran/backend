@@ -10,6 +10,7 @@ import { DashboardModule } from '@modules/dashboard/dashboard.module';
 import { FarmModule } from '@modules/farm/farm.module';
 import { PoolModule } from '@modules/pool/pool.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
+import { UserModule } from '@modules/user/user.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
@@ -105,6 +106,7 @@ export default function setupSwagger(
   const document = SwaggerModule.createDocument(app, options, {
     include: [
       AuthModule,
+      UserModule,
       DashboardModule,
       FarmModule,
       PoolModule,

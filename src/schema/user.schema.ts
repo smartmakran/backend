@@ -31,11 +31,11 @@ export class User extends Base {
   password: string;
 
   @Prop({
-    type: String,
+    type: [String],
     enum: Role,
-    default: Role.USER,
+    default: [Role.USER],
   })
-  role: string;
+  roles: string[];
 
   @Prop({
     type: String,

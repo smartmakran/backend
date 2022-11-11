@@ -78,7 +78,7 @@ export class SensorService
 
   async getSensorDataByPoolId(pool: string): Promise<any> {
     return await this.sensorModel.find({
-      createdAt: { $gte: DateTime.now().minus({ month: 1 }).toJSDate() },
+      createdAt: { $gte: DateTime.now().minus({ month: 2 }).toJSDate() },
       pool,
     });
   }

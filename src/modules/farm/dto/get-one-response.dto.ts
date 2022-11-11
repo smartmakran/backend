@@ -58,4 +58,10 @@ export class GetOneFarmResponseDto {
   })
   @Expose()
   owner: GetOneUserResponseDto;
+
+  @ApiProperty({
+    description: 'کارشناس مزرعه',
+  })
+  @Expose()
+  expert: GetOneUserResponseDto;
 }

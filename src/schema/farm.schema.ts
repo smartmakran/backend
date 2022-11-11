@@ -65,6 +65,13 @@ export class Farm extends Base {
     ref: 'User',
   })
   owner: ObjectId;
+
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    required: true,
+    ref: 'User',
+  })
+  expert: ObjectId;
 }
 
 export const FarmSchema = SchemaFactory.createForClass(Farm);

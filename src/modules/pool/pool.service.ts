@@ -16,8 +16,10 @@ export class PoolService
     IGetOne<GetOnePoolResponseDto>,
     ICreate<PoolCreateBodyDto>
 {
-  @InjectModel(Pool.name) private readonly poolModel: Model<PoolDocument>;
-  @Inject() private readonly farmService: FarmService;
+  @InjectModel(Pool.name)
+  private readonly poolModel: Model<PoolDocument>;
+  @Inject()
+  private readonly farmService: FarmService;
 
   async getAll(
     query: GetAllPoolQueryDto,

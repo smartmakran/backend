@@ -70,6 +70,7 @@ export class AuthService {
     const jwtPayload: JwtPayload = {
       _id: user._id,
       phone: user.phone,
+      roles: user.roles,
     };
     return this.jwtService.sign(jwtPayload, {
       secret: process.env.JWT_SECRET,
