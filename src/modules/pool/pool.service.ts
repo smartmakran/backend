@@ -1,5 +1,5 @@
 import { FarmService } from '@modules/farm/farm.service';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
 import { GetAllResponseDto } from 'dto';
@@ -69,7 +69,9 @@ export class PoolService
   }
 
   async getOrThrowError(id: string): Promise<PoolDocument> {
-    const pool = await this.poolModel.findById(id);
+    const pool = await this.poolModel.findById(id, {}, { populate: 'Farm' });
+    console.log(pool);
+
     if (!pool || pool.deleted) {
       throw new NotFoundException('استخری با این شناسه یافت نشد.');
     }

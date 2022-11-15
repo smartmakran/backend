@@ -2,6 +2,7 @@ import { FarmModule } from '@modules/farm/farm.module';
 import { PoolModule } from '@modules/pool/pool.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
 import { SocketModule } from '@modules/socket/socket.module';
+import { TaskModule } from '@modules/task/task.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
@@ -30,6 +31,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     PoolModule,
     SensorModule,
     SocketModule,
+    TaskModule,
   ],
   controllers: [],
 })

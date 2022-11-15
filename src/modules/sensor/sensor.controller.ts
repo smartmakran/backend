@@ -1,3 +1,5 @@
+import { Roles } from '@modules/auth/decorators/roles.decorator';
+import { Role } from '@modules/auth/enum/role.enum';
 import {
   Body,
   Controller,
@@ -52,5 +54,17 @@ export class SensorController
   @SetMetadata('isPublic', true)
   public async create(@Body() payload: SensorCreateBodyDto): Promise<void> {
     await this.sensorService.create(payload);
+  }
+
+  @Post('optimalData')
+  @HttpCode(200)
+  @ApiSecurity('Authorization')
+  @Roles(Role.EXPERT)
+  @ApiOperation({ summary: 'ثبت اطلاعات بهینه برای استخر' })
+  @ApiResponse({ status: 200 })
+  public async createOptimalData(
+    @Body() payload: SensorCreateBodyDto,
+  ): Promise<void> {
+    await this.sensorService.createOptimalData(payload);
   }
 }

@@ -4,70 +4,70 @@ import { Types } from 'mongoose';
 
 export class SensorCreateBodyDto {
   @ApiProperty({
-    example: 12,
+    example: 6,
     description: 'pH',
   })
   @IsNumber()
   ph: number;
 
   @ApiProperty({
-    example: 15,
+    example: 9,
     description: 'DO',
   })
   @IsNumber()
   oxygen: number;
 
   @ApiProperty({
-    example: 500,
+    example: 300,
     description: 'ORP',
   })
   @IsNumber()
   orp: number;
 
   @ApiProperty({
-    example: 25,
+    example: 23,
     description: 'EC',
   })
   @IsNumber()
   ec: number;
 
   @ApiProperty({
-    example: 0.5,
+    example: 0.45,
     description: 'Ammonia',
   })
   @IsNumber()
   ammonia: number;
 
   @ApiProperty({
-    example: 50,
+    example: 1,
     description: 'Nitrite',
   })
   @IsNumber()
   nitrite: number;
 
   @ApiProperty({
-    example: 60,
+    example: 1,
     description: 'Nitrate',
   })
   @IsNumber()
   nitrate: number;
 
   @ApiProperty({
-    example: 24,
+    example: 27,
     description: 'Temperature',
   })
   @IsNumber()
   temperature: number;
 
   @ApiProperty({
-    example: '5d8f8f8f8f8f8f8f8f8f8f8f',
+    example: '62f72a973515f21eb3661f9a',
     description: 'شناسه استخر',
   })
   @IsMongoId({ message: 'شناسه استخر باید از نوع شناسه باشد' })
   pool: Types.ObjectId;
 
   @ApiProperty({
-    example: '6bcb85f0-6317-4c28-b589-4c5d1886ca8c',
+    example: 'a00794ea-9f57-45ea-9464-82a1a1e8f698',
     description: 'کلید سنسور استخر',
   })
   @IsUUID('4', { message: 'کلید سنسور باید از نوع uuid باشد.' })

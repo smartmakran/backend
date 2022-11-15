@@ -7,6 +7,7 @@ import { GetAllResponseDto } from 'dto';
 import { ICreate, IGetAll } from 'interface';
 import { DateTime } from 'luxon';
 import { Model } from 'mongoose';
+import { OptimalData } from 'schema/optimal-data.schema';
 import { Sensor, SensorDocument } from 'schema/sensor.schema';
 import { GetAllSensorQueryDto, GetOneSensorResponseDto } from './dto';
 import { SensorCreateBodyDto } from './dto/create-body.dto';
@@ -17,6 +18,8 @@ export class SensorService
     ICreate<SensorCreateBodyDto>
 {
   @InjectModel(Sensor.name) private readonly sensorModel: Model<SensorDocument>;
+  @InjectModel(OptimalData.name)
+  private readonly optimalDataModel: Model<OptimalData>;
   @Inject() private readonly userService: UserService;
   @Inject() private readonly socketGateway: SocketGateway;
 
@@ -80,6 +83,40 @@ export class SensorService
     return await this.sensorModel.find({
       createdAt: { $gte: DateTime.now().minus({ month: 2 }).toJSDate() },
       pool,
+    });
+  }
+
+  async createOptimalData(payload: SensorCreateBodyDto): Promise<void> {
+    const {
+      pool,
+      sensorsKey,
+      ph,
+      oxygen,
+      orp,
+      ec,
+      ammonia,
+      nitrite,
+      nitrate,
+      temperature,
+    } = payload;
+
+    const pools = await this.userService.getUserPoolsBySensorsKey(sensorsKey);
+    const pool_ids = pools.map((pool) => pool.pools._id.toString());
+
+    if (!pool_ids.includes(pool.toString())) {
+      throw new ConflictException('شناسه استخر یا کلید سنسورها نادرست است.');
+    }
+
+    await this.optimalDataModel.create({
+      pool,
+      ph,
+      oxygen,
+      orp,
+      ec,
+      ammonia,
+      nitrite,
+      nitrate,
+      temperature,
     });
   }
 }

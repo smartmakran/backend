@@ -9,6 +9,7 @@ import { addAliases } from 'module-alias';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ValidationPipe } from '@nestjs/common';
 import { RolesGuard } from 'guards/roles.guard';
+import mongoose from 'mongoose';
 
 if (process.env.NODE_ENV === 'production') {
   addAliases({
@@ -35,6 +36,8 @@ async function bootstrap() {
         transform: true,
       }),
     );
+
+    mongoose.set('debug', true);
 
     setupSwagger(app, adapter.getInstance());
 

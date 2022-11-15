@@ -4,10 +4,13 @@ import { Inject, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { Model } from 'mongoose';
+import { OptimalData } from 'schema/optimal-data.schema';
 import { User, UserDocument } from 'schema/user.schema';
 
 export class DashboardService {
   @InjectModel(User.name) private readonly userModel: Model<UserDocument>;
+  @InjectModel(OptimalData.name)
+  private readonly optimalDataModel: Model<OptimalData>;
   @Inject() private readonly userService: UserService;
   @Inject() private readonly sensorService: SensorService;
 
@@ -25,6 +28,10 @@ export class DashboardService {
       pools[0].pools._id.toString(),
     );
 
-    return { user, pools, sensorData };
+    const optimalData = await this.optimalDataModel.find({
+      pool: pools[0].pools,
+    });
+
+    return { user, pools, sensorData, optimalData };
   }
 }

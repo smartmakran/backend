@@ -11,6 +11,7 @@ import { FarmModule } from '@modules/farm/farm.module';
 import { PoolModule } from '@modules/pool/pool.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
 import { UserModule } from '@modules/user/user.module';
+import { TaskModule } from '@modules/task/task.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
@@ -111,6 +112,7 @@ export default function setupSwagger(
       FarmModule,
       PoolModule,
       SensorModule,
+      TaskModule,
     ],
   });
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, document, {

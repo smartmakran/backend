@@ -1,5 +1,4 @@
 import { FarmModule } from '@modules/farm/farm.module';
-import { UserModule } from '@modules/user/user.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Pool, PoolSchema } from 'schema/pool.schema';
@@ -13,5 +12,6 @@ import { PoolService } from './pool.service';
   ],
   controllers: [PoolController],
   providers: [PoolService],
+  exports: [PoolService],
 })
 export class PoolModule {}

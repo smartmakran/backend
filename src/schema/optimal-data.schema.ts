@@ -1,12 +1,11 @@
+import { Base } from './base.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
 
-export type SensorDocument = Sensor & Document;
+export type OptimalDataDocument = OptimalData & Document;
 
-@Schema({ collection: 'sensors' })
-export class Sensor {
-  _id: ObjectId;
-
+@Schema({ collection: 'optimal-data' })
+export class OptimalData extends Base {
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
@@ -60,6 +59,11 @@ export class Sensor {
     default: Date.now,
   })
   createdAt: Date;
+
+  @Prop({
+    type: Date,
+  })
+  updatedAt: Date;
 }
 
-export const SensorSchema = SchemaFactory.createForClass(Sensor);
+export const OptimalDataSchema = SchemaFactory.createForClass(OptimalData);
