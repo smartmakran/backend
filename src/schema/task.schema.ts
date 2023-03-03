@@ -10,9 +10,9 @@ export class Task extends Base {
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
-    ref: 'Pool',
+    ref: 'Pond',
   })
-  pool: ObjectId;
+  pond: ObjectId;
 
   @Prop({
     type: String,
@@ -44,18 +44,6 @@ export class Task extends Base {
     default: Priority.LOW,
   })
   priority: string;
-
-  @Prop({
-    type: Date,
-    required: true,
-    default: Date.now,
-  })
-  createdAt: Date;
-
-  @Prop({
-    type: Date,
-  })
-  updatedAt: Date;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

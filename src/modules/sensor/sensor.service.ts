@@ -44,7 +44,7 @@ export class SensorService
 
   async create(payload: SensorCreateBodyDto): Promise<void> {
     const {
-      pool,
+      pond,
       sensorsKey,
       ph,
       oxygen,
@@ -56,15 +56,15 @@ export class SensorService
       temperature,
     } = payload;
 
-    const pools = await this.userService.getUserPoolsBySensorsKey(sensorsKey);
-    const pool_ids = pools.map((pool) => pool.pools._id.toString());
+    const ponds = await this.userService.getUserPondsBySensorsKey(sensorsKey);
+    const pond_ids = ponds.map((pond) => pond.ponds._id.toString());
 
-    if (!pool_ids.includes(pool.toString())) {
+    if (!pond_ids.includes(pond.toString())) {
       throw new ConflictException('شناسه استخر یا کلید سنسورها نادرست است.');
     }
 
     await this.sensorModel.create({
-      pool,
+      pond,
       ph,
       oxygen,
       orp,
@@ -75,20 +75,20 @@ export class SensorService
       temperature,
     });
 
-    const data = await this.getSensorDataByPoolId(pool.toString());
+    const data = await this.getSensorDataByPondId(pond.toString());
     this.socketGateway.server.emit('message', data);
   }
 
-  async getSensorDataByPoolId(pool: string): Promise<any> {
+  async getSensorDataByPondId(pond: string): Promise<any> {
     return await this.sensorModel.find({
       createdAt: { $gte: DateTime.now().minus({ month: 2 }).toJSDate() },
-      pool,
+      pond,
     });
   }
 
   async createOptimalData(payload: SensorCreateBodyDto): Promise<void> {
     const {
-      pool,
+      pond,
       sensorsKey,
       ph,
       oxygen,
@@ -100,15 +100,15 @@ export class SensorService
       temperature,
     } = payload;
 
-    const pools = await this.userService.getUserPoolsBySensorsKey(sensorsKey);
-    const pool_ids = pools.map((pool) => pool.pools._id.toString());
+    const ponds = await this.userService.getUserPondsBySensorsKey(sensorsKey);
+    const pond_ids = ponds.map((pond) => pond.ponds._id.toString());
 
-    if (!pool_ids.includes(pool.toString())) {
+    if (!pond_ids.includes(pond.toString())) {
       throw new ConflictException('شناسه استخر یا کلید سنسورها نادرست است.');
     }
 
     await this.optimalDataModel.create({
-      pool,
+      pond,
       ph,
       oxygen,
       orp,

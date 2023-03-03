@@ -8,7 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AuthModule } from '@modules/auth/auth.module';
 import { DashboardModule } from '@modules/dashboard/dashboard.module';
 import { FarmModule } from '@modules/farm/farm.module';
-import { PoolModule } from '@modules/pool/pool.module';
+import { PondModule } from '@modules/pond/pond.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
 import { UserModule } from '@modules/user/user.module';
 import { TaskModule } from '@modules/task/task.module';
@@ -110,7 +110,7 @@ export default function setupSwagger(
       UserModule,
       DashboardModule,
       FarmModule,
-      PoolModule,
+      PondModule,
       SensorModule,
       TaskModule,
     ],

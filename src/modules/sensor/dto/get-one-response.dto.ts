@@ -63,5 +63,5 @@ export class GetOneSensorResponseDto {
     description: 'شناسه استخر',
   })
   @Expose()
-  pool: Types.ObjectId;
+  pond: Types.ObjectId;
 }

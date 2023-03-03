@@ -64,7 +64,7 @@ export class SensorCreateBodyDto {
     description: 'شناسه استخر',
   })
   @IsMongoId({ message: 'شناسه استخر باید از نوع شناسه باشد' })
-  pool: Types.ObjectId;
+  pond: Types.ObjectId;
 
   @ApiProperty({
     example: 'a00794ea-9f57-45ea-9464-82a1a1e8f698',

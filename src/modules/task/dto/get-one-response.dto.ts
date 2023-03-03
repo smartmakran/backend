@@ -14,7 +14,7 @@ export class GetOneTaskResponseDto {
     description: 'شناسه استخر',
   })
   @Expose()
-  pool: string;
+  pond: string;
 
   @ApiProperty({
     description: 'عنوان تسک',

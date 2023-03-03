@@ -4,14 +4,14 @@ import { Document, ObjectId, SchemaTypes } from 'mongoose';
 
 export type OptimalDataDocument = OptimalData & Document;
 
-@Schema({ collection: 'optimal-data' })
+@Schema({ collection: 'optimal-data', timestamps: true })
 export class OptimalData extends Base {
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
-    ref: 'Pool',
+    ref: 'Pond',
   })
-  pool: ObjectId;
+  pond: ObjectId;
 
   @Prop({
     type: Number,

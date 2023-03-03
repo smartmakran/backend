@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import { IsMongoId, IsNumber, IsString } from 'class-validator';
 import { Types } from 'mongoose';
 
-export class PoolDimensionsCreateDto {
+export class PondDimensionsCreateDto {
   @ApiProperty({ example: 100, description: 'طول استخر' })
   @IsNumber()
   length: number;
@@ -17,7 +17,7 @@ export class PoolDimensionsCreateDto {
   depth: number;
 }
 
-export class PoolCreateBodyDto {
+export class PondCreateBodyDto {
   @ApiProperty({
     example: 'استخر شماره یک',
     description: 'نام استخر',
@@ -26,11 +26,11 @@ export class PoolCreateBodyDto {
   name: string;
 
   @ApiProperty({
-    type: PoolDimensionsCreateDto,
+    type: PondDimensionsCreateDto,
     description: 'ابعاد استخر',
   })
-  @Type(() => PoolDimensionsCreateDto)
-  dimensions: PoolDimensionsCreateDto;
+  @Type(() => PondDimensionsCreateDto)
+  dimensions: PondDimensionsCreateDto;
 
   @ApiProperty({
     example: '5d8f8f8f8f8f8f8f8f8f8f8f',

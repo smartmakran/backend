@@ -20,18 +20,18 @@ export class DashboardService {
       throw new NotFoundException('کاربری با این شناسه یافت نشد.');
     }
 
-    const pools = await this.userService.getUserPoolsBySensorsKey(
+    const ponds = await this.userService.getUserPondsBySensorsKey(
       user.sensorsKey,
     );
 
-    const sensorData = await this.sensorService.getSensorDataByPoolId(
-      pools[0].pools._id.toString(),
+    const sensorData = await this.sensorService.getSensorDataByPondId(
+      ponds[0].ponds._id.toString(),
     );
 
     const optimalData = await this.optimalDataModel.find({
-      pool: pools[0].pools,
+      pond: ponds[0].ponds,
     });
 
-    return { user, pools, sensorData, optimalData };
+    return { user, ponds, sensorData, optimalData };
   }
 }

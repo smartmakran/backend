@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { Model, Types } from 'mongoose';
-import { Pool } from 'schema/pool.schema';
+import { Pond } from 'schema/pond.schema';
 import { User, UserDocument } from 'schema/user.schema';
 
 export class UserService {
@@ -16,10 +16,10 @@ export class UserService {
     return user;
   }
 
-  async getUserPoolsBySensorsKey(
+  async getUserPondsBySensorsKey(
     sensorsKey: string,
-  ): Promise<{ _id; pools: Pool }[]> {
-    const pools = await this.userModel
+  ): Promise<{ _id; ponds: Pond }[]> {
+    const ponds = await this.userModel
       .aggregate([])
       .match({ sensorsKey })
       .lookup({
@@ -36,18 +36,18 @@ export class UserService {
       })
       .unwind('$farms')
       .lookup({
-        from: 'pools',
+        from: 'ponds',
         localField: 'farms.farm_id',
         foreignField: 'farm',
-        as: 'pools',
+        as: 'ponds',
       })
-      .unwind('$pools')
-      .project({ pools: 1 });
+      .unwind('$ponds')
+      .project({ ponds: 1 });
 
-    if (!pools?.length) {
+    if (!ponds?.length) {
       throw new NotFoundException('شناسه استخر یا کلید سنسورها نادرست است.');
     }
-    return pools;
+    return ponds;
   }
 
   async getAll(): Promise<User[]> {

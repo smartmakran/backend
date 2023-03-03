@@ -2,9 +2,9 @@ import { Base } from './base.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
 
-export type PoolDocument = Pool & Document;
+export type PondDocument = Pond & Document;
 
-export class PoolDimensions {
+export class PondDimensions {
   @Prop({ required: true })
   length: number;
 
@@ -15,8 +15,8 @@ export class PoolDimensions {
   depth: number;
 }
 
-@Schema({ collection: 'pools', timestamps: true })
-export class Pool extends Base {
+@Schema({ collection: 'ponds', timestamps: true })
+export class Pond extends Base {
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
@@ -31,10 +31,10 @@ export class Pool extends Base {
   name: string;
 
   @Prop({
-    type: PoolDimensions,
+    type: PondDimensions,
     required: true,
   })
-  dimensions: PoolDimensions;
+  dimensions: PondDimensions;
 }
 
-export const PoolSchema = SchemaFactory.createForClass(Pool);
+export const PondSchema = SchemaFactory.createForClass(Pond);

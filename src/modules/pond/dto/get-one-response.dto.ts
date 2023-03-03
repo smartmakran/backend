@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { Country } from 'enum/country.enum';
 
-export class GetOnePoolDimensionsResponseDto {
+export class GetOnePondDimensionsResponseDto {
   @ApiProperty({
     example: 20,
     description: 'طول استخر',
@@ -27,7 +27,7 @@ export class GetOnePoolDimensionsResponseDto {
   depth: number;
 }
 
-export class GetOnePoolResponseDto {
+export class GetOnePondResponseDto {
   @ApiProperty({
     example: '5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f',
     description: 'شناسه مزرعه',
@@ -46,7 +46,7 @@ export class GetOnePoolResponseDto {
     description: 'آدرس مزرعه',
   })
   @Expose()
-  dimensions: GetOnePoolDimensionsResponseDto;
+  dimensions: GetOnePondDimensionsResponseDto;
 
   @ApiProperty({
     description: 'مزرعه',

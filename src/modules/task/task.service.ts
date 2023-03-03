@@ -1,4 +1,4 @@
-import { PoolService } from '@modules/pool/pool.service';
+import { PondService } from '@modules/pond/pond.service';
 import { UserService } from '@modules/user/user.service';
 import { ConflictException, Inject, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -23,7 +23,7 @@ export class TaskService
 {
   @InjectModel(Task.name) private readonly taskModel: Model<TaskDocument>;
   @Inject() private readonly userService: UserService;
-  @Inject() private readonly poolService: PoolService;
+  @Inject() private readonly pondService: PondService;
 
   async getAll(query: GetAllTaskQueryDto): Promise<GetAllTaskResponseDto> {
     const { skip, limit } = query;
@@ -46,7 +46,7 @@ export class TaskService
     });
   }
 
-  async getAllByPool(
+  async getAllByPond(
     id: string,
     query: GetAllTaskQueryDto,
   ): Promise<GetAllTaskResponseDto> {
@@ -57,10 +57,10 @@ export class TaskService
       dbQuery.name = { $regex: query.title, $options: 'i' };
     }
 
-    await this.poolService.getOrThrowError(id);
+    await this.pondService.getOrThrowError(id);
 
     dbQuery.deleted = { $ne: true };
-    dbQuery.pool = id;
+    dbQuery.pond = id;
 
     const [data, count] = await Promise.all([
       this.taskModel.find(dbQuery).skip(skip).limit(limit),
@@ -74,10 +74,10 @@ export class TaskService
   }
 
   async create(payload: TaskCreateBodyDto): Promise<void> {
-    const { pool, title, description, dueDate, priority } = payload;
-    await this.poolService.getOrThrowError(pool);
+    const { pond, title, description, dueDate, priority } = payload;
+    await this.pondService.getOrThrowError(pond);
 
-    // TODO: check if pool belongs to user
+    // TODO: check if pond belongs to user
 
     if (dueDate <= new Date()) {
       throw new ConflictException(
@@ -86,7 +86,7 @@ export class TaskService
     }
 
     await this.taskModel.create({
-      pool,
+      pond,
       title,
       description,
       dueDate,
@@ -123,7 +123,6 @@ export class TaskService
   async done(params: ParamIdDto): Promise<void> {
     const Task = await this.getOrThrowError(params.id);
     Task.done = true;
-    Task.updatedAt = new Date();
     await Task.save();
   }
 

@@ -14,44 +14,44 @@ import { GetAllResponseDto } from 'dto';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { IGetAll, ICreate, IGetOne } from 'interface';
 import {
-  GetAllPoolQueryDto,
-  GetOnePoolResponseDto,
-  PoolCreateBodyDto,
+  GetAllPondQueryDto,
+  GetOnePondResponseDto,
+  PondCreateBodyDto,
 } from './dto';
 
-import { PoolService } from './pool.service';
+import { PondService } from './pond.service';
 
-@Controller('pool')
-@ApiTags('Pool')
+@Controller('pond')
+@ApiTags('Pond')
 @ApiSecurity('Authorization')
-export class PoolController
+export class PondController
   implements
-    IGetAll<GetAllPoolQueryDto, GetAllResponseDto<GetOnePoolResponseDto>>,
-    IGetOne<GetOnePoolResponseDto>,
-    ICreate<PoolCreateBodyDto>
+    IGetAll<GetAllPondQueryDto, GetAllResponseDto<GetOnePondResponseDto>>,
+    IGetOne<GetOnePondResponseDto>,
+    ICreate<PondCreateBodyDto>
 {
-  @Inject() private readonly PoolService: PoolService;
+  @Inject() private readonly PondService: PondService;
 
   @Get()
   @ApiOperation({ summary: 'لیست تمام استخرها' })
   public async getAll(
-    @Query() query: GetAllPoolQueryDto,
-  ): Promise<GetAllResponseDto<GetOnePoolResponseDto>> {
-    return await this.PoolService.getAll(query);
+    @Query() query: GetAllPondQueryDto,
+  ): Promise<GetAllResponseDto<GetOnePondResponseDto>> {
+    return await this.PondService.getAll(query);
   }
 
   @Post()
   @ApiOperation({ summary: 'ثبت استخر جدید' })
-  public async create(@Body() payload: PoolCreateBodyDto): Promise<void> {
-    await this.PoolService.create(payload);
+  public async create(@Body() payload: PondCreateBodyDto): Promise<void> {
+    await this.PondService.create(payload);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'جزییات استخر' })
   public async getOne(
     @Param() params: ParamIdDto,
-  ): Promise<GetOnePoolResponseDto> {
-    return await this.PoolService.getOne(params);
+  ): Promise<GetOnePondResponseDto> {
+    return await this.PondService.getOne(params);
   }
 
   @Put(':id')
@@ -60,12 +60,12 @@ export class PoolController
     @Param() params: any,
     @Body() payload: any,
   ): Promise<any> {
-    return await this.PoolService.update(params.id, payload);
+    return await this.PondService.update(params.id, payload);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'حذف استخر' })
   public async delete(@Param() params: any): Promise<any> {
-    return await this.PoolService.delete(params.id);
+    return await this.PondService.delete(params.id);
   }
 }

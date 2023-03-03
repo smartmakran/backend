@@ -10,9 +10,9 @@ export class Sensor {
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
-    ref: 'Pool',
+    ref: 'pond',
   })
-  pool: ObjectId;
+  pond: ObjectId;
 
   @Prop({
     type: Number,

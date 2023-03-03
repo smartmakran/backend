@@ -8,7 +8,7 @@ export class TaskCreateBodyDto {
     description: 'شناسه استخر',
   })
   @IsMongoId({ message: 'شناسه استخر باید از نوع شناسه باشد' })
-  pool: string;
+  pond: string;
 
   @ApiProperty({
     example: 'تسک شماره یک',

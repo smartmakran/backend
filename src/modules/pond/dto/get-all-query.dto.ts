@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GetAllQueryDto } from 'dto/get-all-query.dto';
 
-export class GetAllPoolQueryDto extends GetAllQueryDto {
+export class GetAllPondQueryDto extends GetAllQueryDto {
   @ApiProperty({
     required: false,
     example: '',

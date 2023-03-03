@@ -10,6 +10,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ParamIdDto } from 'dto/paramId.dto';
@@ -44,13 +45,13 @@ export class TaskController
     return await this.taskService.getAll(query);
   }
 
-  @Get('pool/:id')
+  @Get('pond/:id')
   @ApiOperation({ summary: 'لیست تمام تسک‌ها بر اساس شناسه استخر' })
-  public async getAllByPool(
+  public async getAllByPond(
     @Param() param: ParamIdDto,
     @Query() query: GetAllTaskQueryDto,
   ): Promise<GetAllTaskResponseDto> {
-    return await this.taskService.getAllByPool(param.id, query);
+    return await this.taskService.getAllByPond(param.id, query);
   }
 
   @Post()

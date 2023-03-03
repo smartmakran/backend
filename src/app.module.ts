@@ -1,13 +1,11 @@
 import { FarmModule } from '@modules/farm/farm.module';
-import { PoolModule } from '@modules/pool/pool.module';
+import { PondModule } from '@modules/pond/pond.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
 import { SocketModule } from '@modules/socket/socket.module';
 import { TaskModule } from '@modules/task/task.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RolesGuard } from 'guards/roles.guard';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
@@ -28,7 +26,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     AuthModule,
     DashboardModule,
     FarmModule,
-    PoolModule,
+    PondModule,
     SensorModule,
     SocketModule,
     TaskModule,
