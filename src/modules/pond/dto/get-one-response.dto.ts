@@ -33,7 +33,7 @@ export class GetOnePondResponseDto {
     description: 'شناسه مزرعه',
   })
   @Expose()
-  _id: string;
+  id: string;
 
   @ApiProperty({
     example: 'مزرعه رحیمی',
@@ -53,4 +53,12 @@ export class GetOnePondResponseDto {
   })
   @Expose()
   farm: GetOneFarmResponseDto;
+
+  @ApiProperty({})
+  @Expose()
+  createdAt: Date;
+
+  @ApiProperty({})
+  @Expose()
+  updatedAt: Date;
 }

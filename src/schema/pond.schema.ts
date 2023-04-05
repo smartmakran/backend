@@ -1,6 +1,7 @@
 import { Base } from './base.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId, SchemaTypes } from 'mongoose';
+import { PondStatus } from 'enum/pond-status.enum';
 
 export type PondDocument = Pond & Document;
 
@@ -35,6 +36,17 @@ export class Pond extends Base {
     required: true,
   })
   dimensions: PondDimensions;
+
+  @Prop({
+    type: String,
+    default: PondStatus.PREPARING,
+  })
+  status: PondStatus;
+
+  @Prop({
+    type: Date,
+  })
+  lastFishing: Date;
 }
 
 export const PondSchema = SchemaFactory.createForClass(Pond);

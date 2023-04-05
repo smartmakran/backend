@@ -12,6 +12,8 @@ import {
   GetOneFarmResponseDto,
 } from './dto';
 import { FarmCreateBodyDto } from './dto/create-body.dto';
+import { PondService } from '@modules/pond/pond.service';
+import { Pond, PondDocument } from 'schema/pond.schema';
 
 export class FarmService
   implements
@@ -21,6 +23,7 @@ export class FarmService
     IUpdate<FarmCreateBodyDto>
 {
   @InjectModel(Farm.name) private readonly farmModel: Model<FarmDocument>;
+  @InjectModel(Pond.name) private readonly pondModel: Model<PondDocument>;
   @Inject() private readonly userService: UserService;
 
   async getAll(query: GetAllFarmQueryDto): Promise<GetAllFarmResponseDto> {
@@ -48,10 +51,14 @@ export class FarmService
       this.farmModel.countDocuments(dbQuery),
     ]);
 
-    return plainToInstance(GetAllFarmResponseDto, {
-      count,
-      data,
-    });
+    return plainToInstance(
+      GetAllFarmResponseDto,
+      {
+        count,
+        data,
+      },
+      { excludeExtraneousValues: true },
+    );
   }
 
   async create(payload: FarmCreateBodyDto): Promise<any> {
@@ -74,9 +81,15 @@ export class FarmService
 
   async getOne(params: ParamIdDto): Promise<GetOneFarmResponseDto> {
     const farm = await this.getOrThrowError(params.id);
-    return plainToInstance(GetOneFarmResponseDto, farm, {
-      excludeExtraneousValues: true,
-    });
+    const ponds = await this.pondModel.find({ farm });
+
+    return plainToInstance(
+      GetOneFarmResponseDto,
+      { ...farm.toObject(), ponds },
+      {
+        excludeExtraneousValues: true,
+      },
+    );
   }
 
   async update(params: ParamIdDto, payload: FarmCreateBodyDto): Promise<void> {

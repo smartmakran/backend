@@ -9,18 +9,18 @@ export class GetAllQueryDto {
     example: 0,
     description: 'تعدادی که می‌خواهیم در نظر گرفته نشوند.',
   })
-  @IsNumberString({ message: 'skip باید عدد باشد.' })
   @IsOptional()
-  skip: number;
+  @Type()
+  skip = 0;
 
   @ApiProperty({
     required: false,
-    example: 10,
+    example: 20,
     description: 'تعدادی که می‌خواهیم برگردانده شوند.',
   })
-  @IsNumberString({ message: 'limit باید عدد باشد.' })
   @IsOptional()
-  limit: number;
+  @Type()
+  limit = 20;
 
   @ApiProperty({
     required: false,

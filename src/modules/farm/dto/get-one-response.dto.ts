@@ -1,6 +1,7 @@
+import { GetOnePondResponseDto } from '@modules/pond/dto';
 import { GetOneUserResponseDto } from '@modules/user/dto/get-one-user-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { Country } from 'enum/country.enum';
 
 export class GetOneFarmAddressResponseDto {
@@ -31,7 +32,7 @@ export class GetOneFarmResponseDto {
     description: 'شناسه مزرعه',
   })
   @Expose()
-  _id: string;
+  id: string;
 
   @ApiProperty({
     example: 'مزرعه رحیمی',
@@ -64,4 +65,17 @@ export class GetOneFarmResponseDto {
   })
   @Expose()
   expert: GetOneUserResponseDto;
+
+  @ApiProperty({})
+  @Expose()
+  createdAt: Date;
+
+  @ApiProperty({})
+  @Expose()
+  updatedAt: Date;
+
+  @ApiProperty({})
+  @Expose()
+  @Type(() => GetOnePondResponseDto)
+  ponds: GetOnePondResponseDto[];
 }

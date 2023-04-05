@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { Model, Types } from 'mongoose';
@@ -45,7 +45,7 @@ export class UserService {
       .project({ ponds: 1 });
 
     if (!ponds?.length) {
-      throw new NotFoundException('شناسه استخر یا کلید سنسورها نادرست است.');
+      throw new BadRequestException('شناسه استخر یا کلید سنسورها نادرست است.');
     }
     return ponds;
   }
