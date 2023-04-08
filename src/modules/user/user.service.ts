@@ -1,15 +1,19 @@
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ParamIdDto } from 'dto/paramId.dto';
 import { Model, Types } from 'mongoose';
 import { Pond } from 'schema/pond.schema';
 import { User, UserDocument } from 'schema/user.schema';
 
+@Injectable()
 export class UserService {
   @InjectModel(User.name) private readonly userModel: Model<UserDocument>;
 
-  async getOrThrowError(params: ParamIdDto): Promise<User> {
-    const user = await this.userModel.findById(params.id);
+  async getOrThrowError(id: string): Promise<User> {
+    const user = await this.userModel.findById(id);
     if (!user) {
       throw new NotFoundException('کاربری با این شناسه یافت نشد.');
     }

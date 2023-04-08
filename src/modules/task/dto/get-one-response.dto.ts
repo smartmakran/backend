@@ -8,7 +8,19 @@ export class GetOneTaskResponseDto {
     description: 'شناسه تسک',
   })
   @Expose()
-  _id: ObjectId;
+  id: string;
+
+  @ApiProperty({
+    description: 'شناسه صاحب تسک',
+  })
+  @Expose()
+  user: string;
+
+  @ApiProperty({
+    description: 'شناسه مزرعه',
+  })
+  @Expose()
+  farm: string;
 
   @ApiProperty({
     description: 'شناسه استخر',

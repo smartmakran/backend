@@ -5,6 +5,20 @@ import { Priority } from 'enum/priority.enum';
 export class TaskCreateBodyDto {
   @ApiProperty({
     example: '5d8f8f8f8f8f8f8f8f8f8f8f',
+    description: 'شناسه صاحب تسک',
+  })
+  @IsMongoId({ message: 'شناسه صاحب تسک باید از نوع شناسه باشد' })
+  user: string;
+
+  @ApiProperty({
+    example: '5d8f8f8f8f8f8f8f8f8f8f8f',
+    description: 'شناسه مزرعه',
+  })
+  @IsMongoId({ message: 'شناسه مزرعه باید از نوع شناسه باشد' })
+  farm: string;
+
+  @ApiProperty({
+    example: '5d8f8f8f8f8f8f8f8f8f8f8f',
     description: 'شناسه استخر',
   })
   @IsMongoId({ message: 'شناسه استخر باید از نوع شناسه باشد' })

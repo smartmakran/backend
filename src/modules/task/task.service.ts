@@ -13,6 +13,7 @@ import {
   GetOneTaskResponseDto,
 } from './dto';
 import { TaskCreateBodyDto } from './dto/create-body.dto';
+import { FarmService } from '@modules/farm/farm.service';
 
 export class TaskService
   implements
@@ -23,6 +24,7 @@ export class TaskService
 {
   @InjectModel(Task.name) private readonly taskModel: Model<TaskDocument>;
   @Inject() private readonly userService: UserService;
+  @Inject() private readonly farmService: FarmService;
   @Inject() private readonly pondService: PondService;
 
   async getAll(query: GetAllTaskQueryDto): Promise<GetAllTaskResponseDto> {
@@ -46,7 +48,7 @@ export class TaskService
     });
   }
 
-  async getAllByPond(
+  async getAllByUser(
     id: string,
     query: GetAllTaskQueryDto,
   ): Promise<GetAllTaskResponseDto> {
@@ -57,35 +59,43 @@ export class TaskService
       dbQuery.name = { $regex: query.title, $options: 'i' };
     }
 
-    await this.pondService.getOrThrowError(id);
+    await this.userService.getOrThrowError(id);
 
     dbQuery.deleted = { $ne: true };
-    dbQuery.pond = id;
+    dbQuery.user = id;
 
     const [data, count] = await Promise.all([
       this.taskModel.find(dbQuery).skip(skip).limit(limit),
       this.taskModel.countDocuments(dbQuery),
     ]);
 
-    return plainToInstance(GetAllTaskResponseDto, {
-      count,
-      data,
-    });
+    return plainToInstance(
+      GetAllTaskResponseDto,
+      {
+        count,
+        data,
+      },
+      { excludeExtraneousValues: true, enableImplicitConversion: true },
+    );
   }
 
   async create(payload: TaskCreateBodyDto): Promise<void> {
-    const { pond, title, description, dueDate, priority } = payload;
+    const { user, farm, pond, title, description, dueDate, priority } = payload;
+    await this.userService.getOrThrowError(user);
+    await this.farmService.getOrThrowError(farm);
     await this.pondService.getOrThrowError(pond);
 
     // TODO: check if pond belongs to user
 
     if (dueDate <= new Date()) {
       throw new ConflictException(
-        'زمان ددلاین تسک نمی‌تواند پیش از زما حال باشد',
+        'زمان ددلاین تسک نمی‌تواند پیش از زمان حال باشد',
       );
     }
 
     await this.taskModel.create({
+      user,
+      farm,
       pond,
       title,
       description,

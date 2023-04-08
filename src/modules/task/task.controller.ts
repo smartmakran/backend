@@ -45,13 +45,13 @@ export class TaskController
     return await this.taskService.getAll(query);
   }
 
-  @Get('pond/:id')
-  @ApiOperation({ summary: 'لیست تمام تسک‌ها بر اساس شناسه استخر' })
+  @Get('user/:id')
+  @ApiOperation({ summary: 'لیست تمام تسک‌ها بر اساس شناسه کاربر' })
   public async getAllByPond(
     @Param() param: ParamIdDto,
     @Query() query: GetAllTaskQueryDto,
   ): Promise<GetAllTaskResponseDto> {
-    return await this.taskService.getAllByPond(param.id, query);
+    return await this.taskService.getAllByUser(param.id, query);
   }
 
   @Post()

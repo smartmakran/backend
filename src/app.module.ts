@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { UserModule } from '@modules/user/user.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     ),
     AuthModule,
     DashboardModule,
+    UserModule,
     FarmModule,
     PondModule,
     SensorModule,

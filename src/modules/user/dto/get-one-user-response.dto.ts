@@ -7,7 +7,7 @@ export class GetOneUserResponseDto {
     description: 'شناسه کاربر',
   })
   @Expose()
-  _id: string;
+  id: string;
 
   @ApiProperty({
     example: 'حسام محمدی',

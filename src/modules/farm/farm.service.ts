@@ -1,5 +1,10 @@
 import { UserService } from '@modules/user/user.service';
-import { ConflictException, Inject, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
 import { ParamIdDto } from 'dto/paramId.dto';
@@ -12,9 +17,9 @@ import {
   GetOneFarmResponseDto,
 } from './dto';
 import { FarmCreateBodyDto } from './dto/create-body.dto';
-import { PondService } from '@modules/pond/pond.service';
 import { Pond, PondDocument } from 'schema/pond.schema';
 
+@Injectable()
 export class FarmService
   implements
     IGetAll<GetAllFarmQueryDto, GetAllFarmResponseDto>,
@@ -63,7 +68,7 @@ export class FarmService
 
   async create(payload: FarmCreateBodyDto): Promise<any> {
     const { name, address, phones, owner, expert } = payload;
-    await this.userService.getOrThrowError({ id: owner });
+    await this.userService.getOrThrowError(owner);
     const existedPhones = await this.farmModel.find({
       phones: { $in: phones },
     });

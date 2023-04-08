@@ -10,6 +10,20 @@ export class Task extends Base {
   @Prop({
     type: SchemaTypes.ObjectId,
     required: true,
+    ref: 'User',
+  })
+  user: ObjectId;
+
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    required: true,
+    ref: 'Farm',
+  })
+  farm: ObjectId;
+
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    required: true,
     ref: 'Pond',
   })
   pond: ObjectId;

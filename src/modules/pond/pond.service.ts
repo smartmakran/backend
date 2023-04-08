@@ -10,6 +10,7 @@ import { Pond, PondDocument } from 'schema/pond.schema';
 import { GetAllPondQueryDto, GetOnePondResponseDto } from './dto';
 import { PondCreateBodyDto } from './dto/create-body.dto';
 
+@Injectable()
 export class PondService
   implements
     IGetAll<GetAllPondQueryDto, GetAllResponseDto<GetOnePondResponseDto>>,
