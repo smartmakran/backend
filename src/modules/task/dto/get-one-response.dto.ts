@@ -1,5 +1,6 @@
+import { GetOnePondResponseDto } from '@modules/pond/dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { Priority } from 'enum/priority.enum';
 import { ObjectId } from 'mongoose';
 
@@ -26,7 +27,8 @@ export class GetOneTaskResponseDto {
     description: 'شناسه استخر',
   })
   @Expose()
-  pond: string;
+  @Type(() => GetOnePondResponseDto)
+  pond: GetOnePondResponseDto;
 
   @ApiProperty({
     description: 'عنوان تسک',

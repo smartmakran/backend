@@ -65,7 +65,7 @@ export class TaskService
     dbQuery.user = id;
 
     const [data, count] = await Promise.all([
-      this.taskModel.find(dbQuery).skip(skip).limit(limit),
+      this.taskModel.find(dbQuery).skip(skip).limit(limit).populate('pond'),
       this.taskModel.countDocuments(dbQuery),
     ]);
 
