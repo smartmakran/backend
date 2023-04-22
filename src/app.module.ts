@@ -10,6 +10,7 @@ import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { UserModule } from '@modules/user/user.module';
+import { ManualMonitoringModule } from '@modules/manualMonitoring/manualMonitoring.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { UserModule } from '@modules/user/user.module';
     SensorModule,
     SocketModule,
     TaskModule,
+    ManualMonitoringModule,
   ],
   controllers: [],
 })

@@ -56,6 +56,18 @@ export class GetOnePondResponseDto {
 
   @ApiProperty({})
   @Expose()
+  startFarming: Date;
+
+  @ApiProperty({})
+  @Expose()
+  larvaCount: number;
+
+  @ApiProperty({})
+  @Expose()
+  density: number;
+
+  @ApiProperty({})
+  @Expose()
   createdAt: Date;
 
   @ApiProperty({})

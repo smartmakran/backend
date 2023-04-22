@@ -30,20 +30,20 @@ export class PondController
     IGetOne<GetOnePondResponseDto>,
     ICreate<PondCreateBodyDto>
 {
-  @Inject() private readonly PondService: PondService;
+  @Inject() private readonly pondService: PondService;
 
   @Get()
   @ApiOperation({ summary: 'لیست تمام استخرها' })
   public async getAll(
     @Query() query: GetAllPondQueryDto,
   ): Promise<GetAllResponseDto<GetOnePondResponseDto>> {
-    return await this.PondService.getAll(query);
+    return await this.pondService.getAll(query);
   }
 
   @Post()
   @ApiOperation({ summary: 'ثبت استخر جدید' })
   public async create(@Body() payload: PondCreateBodyDto): Promise<void> {
-    await this.PondService.create(payload);
+    await this.pondService.create(payload);
   }
 
   @Get(':id')
@@ -51,7 +51,7 @@ export class PondController
   public async getOne(
     @Param() params: ParamIdDto,
   ): Promise<GetOnePondResponseDto> {
-    return await this.PondService.getOne(params);
+    return await this.pondService.getOne(params);
   }
 
   @Put(':id')
@@ -60,12 +60,12 @@ export class PondController
     @Param() params: any,
     @Body() payload: any,
   ): Promise<any> {
-    return await this.PondService.update(params.id, payload);
+    return await this.pondService.update(params.id, payload);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'حذف استخر' })
   public async delete(@Param() params: any): Promise<any> {
-    return await this.PondService.delete(params.id);
+    return await this.pondService.delete(params.id);
   }
 }

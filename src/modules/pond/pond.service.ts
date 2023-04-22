@@ -38,18 +38,27 @@ export class PondService
   }
 
   async create(payload: PondCreateBodyDto): Promise<any> {
-    const { name, farm, dimensions } = payload;
+    const { name, farm, dimensions, larvaCount, startFarming } = payload;
     await this.farmService.getOrThrowError(farm);
     return await this.pondModel.create({
       farm,
       name,
       dimensions,
+      larvaCount,
+      density: 0, // TODO: calculate density
+      startFarming,
     });
   }
 
   async getOne(params: ParamIdDto): Promise<GetOnePondResponseDto> {
-    const pond = await this.getOrThrowError(params.id);
-    return plainToInstance(GetOnePondResponseDto, pond);
+    const pond = await this.pondModel.findOne({ _id: params.id });
+    if (!pond || pond.deleted) {
+      throw new NotFoundException('استخری با این شناسه یافت نشد.');
+    }
+    // const pond = await this.getOrThrowError(params.id);
+    return plainToInstance(GetOnePondResponseDto, pond, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async update(params: ParamIdDto, payload: PondCreateBodyDto): Promise<void> {
@@ -70,7 +79,11 @@ export class PondService
   }
 
   async getOrThrowError(id: string): Promise<PondDocument> {
-    const pond = await this.pondModel.findById(id, {}, { populate: 'farm' });
+    const pond = await this.pondModel.findOne(
+      { _id: id },
+      {},
+      { populate: 'farm' },
+    );
 
     if (!pond || pond.deleted) {
       throw new NotFoundException('استخری با این شناسه یافت نشد.');

@@ -12,6 +12,7 @@ import { PondModule } from '@modules/pond/pond.module';
 import { SensorModule } from '@modules/sensor/sensor.module';
 import { UserModule } from '@modules/user/user.module';
 import { TaskModule } from '@modules/task/task.module';
+import { ManualMonitoringModule } from '@modules/manualMonitoring/manualMonitoring.module';
 
 const SWAGGER_ENDPOINT = 'swagger';
 const SWAGGER_LOGIN_ENDPOINT = 'swagger_login';
@@ -113,6 +114,7 @@ export default function setupSwagger(
       PondModule,
       SensorModule,
       TaskModule,
+      ManualMonitoringModule,
     ],
   });
   SwaggerModule.setup(SWAGGER_ENDPOINT, app, document, {

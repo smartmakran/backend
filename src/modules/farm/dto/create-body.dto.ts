@@ -4,6 +4,7 @@ import {
   IsArray,
   IsMongoId,
   IsNumber,
+  IsOptional,
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
@@ -72,5 +73,6 @@ export class FarmCreateBodyDto {
     description: 'شناسه کارشناس',
   })
   @IsMongoId({ message: 'شناسه کارشناس باید از نوع شناسه باشد' })
+  @IsOptional()
   expert: string;
 }

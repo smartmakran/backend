@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsMongoId, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsMongoId, IsNumber, IsString } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class PondDimensionsCreateDto {
@@ -15,6 +15,10 @@ export class PondDimensionsCreateDto {
   @ApiProperty({ example: 100, description: 'عمق استخر' })
   @IsNumber()
   depth: number;
+
+  @ApiProperty({ example: 100, description: 'ارتفاع آب استخر' })
+  @IsNumber()
+  waterHeight: number;
 }
 
 export class PondCreateBodyDto {
@@ -38,4 +42,18 @@ export class PondCreateBodyDto {
   })
   @IsMongoId({ message: 'شناسه مزرعه باید از نوع شناسه باشد' })
   farm: string;
+
+  @ApiProperty({
+    example: 100,
+    description: 'تعداد لارو',
+  })
+  @IsNumber()
+  larvaCount: number;
+
+  @ApiProperty({
+    example: '2020-01-01 00:00:00',
+    description: 'تاریخ شروع کشت',
+  })
+  @IsDateString()
+  startFarming: Date;
 }

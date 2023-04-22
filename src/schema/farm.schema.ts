@@ -68,7 +68,7 @@ export class Farm extends Base {
 
   @Prop({
     type: SchemaTypes.ObjectId,
-    required: true,
+    required: false,
     ref: 'User',
   })
   expert: ObjectId;

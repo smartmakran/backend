@@ -87,14 +87,11 @@ export class FarmService
   async getOne(params: ParamIdDto): Promise<GetOneFarmResponseDto> {
     const farm = await this.getOrThrowError(params.id);
     const ponds = await this.pondModel.find({ farm });
+    farm['ponds'] = ponds;
 
-    return plainToInstance(
-      GetOneFarmResponseDto,
-      { ...farm.toObject(), ponds },
-      {
-        excludeExtraneousValues: true,
-      },
-    );
+    return plainToInstance(GetOneFarmResponseDto, farm, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async update(params: ParamIdDto, payload: FarmCreateBodyDto): Promise<void> {
@@ -105,18 +102,18 @@ export class FarmService
     farm.address = address;
     farm.phones = phones;
 
-    await farm.save();
+    await this.farmModel.updateOne({ _id: farm._id }, farm);
   }
 
   async delete(params: ParamIdDto): Promise<void> {
     const farm = await this.getOrThrowError(params.id);
     farm.deleted = true;
     farm.deletedAt = new Date();
-    await farm.save();
+    await this.farmModel.updateOne({ _id: farm._id }, farm);
   }
 
-  async getOrThrowError(id: string): Promise<FarmDocument> {
-    const farm = await this.farmModel.findById(id);
+  async getOrThrowError(id: string): Promise<Farm> {
+    const farm = await this.farmModel.findOne({ _id: id });
     if (!farm || farm.deleted) {
       throw new NotFoundException('مزرعه‌ای با این شناسه یافت نشد.');
     }

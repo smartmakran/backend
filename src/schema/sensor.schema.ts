@@ -16,41 +16,49 @@ export class Sensor {
 
   @Prop({
     type: Number,
+    required: false,
   })
   ph: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   oxygen: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   orp: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   ec: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   ammonia: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   nitrite: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   nitrate: number;
 
   @Prop({
     type: Number,
+    required: false,
   })
   temperature: number;
 

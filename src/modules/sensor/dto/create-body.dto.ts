@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsNumber, IsUUID } from 'class-validator';
+import {
+  IsDateString,
+  IsMongoId,
+  IsNumber,
+  IsOptional,
+  IsUUID,
+} from 'class-validator';
 import { Types } from 'mongoose';
 
 export class SensorCreateBodyDto {
@@ -8,6 +14,7 @@ export class SensorCreateBodyDto {
     description: 'pH',
   })
   @IsNumber()
+  @IsOptional()
   ph: number;
 
   @ApiProperty({
@@ -15,6 +22,7 @@ export class SensorCreateBodyDto {
     description: 'DO',
   })
   @IsNumber()
+  @IsOptional()
   oxygen: number;
 
   @ApiProperty({
@@ -22,6 +30,7 @@ export class SensorCreateBodyDto {
     description: 'ORP',
   })
   @IsNumber()
+  @IsOptional()
   orp: number;
 
   @ApiProperty({
@@ -29,6 +38,7 @@ export class SensorCreateBodyDto {
     description: 'EC',
   })
   @IsNumber()
+  @IsOptional()
   ec: number;
 
   @ApiProperty({
@@ -36,6 +46,7 @@ export class SensorCreateBodyDto {
     description: 'Ammonia',
   })
   @IsNumber()
+  @IsOptional()
   ammonia: number;
 
   @ApiProperty({
@@ -43,6 +54,7 @@ export class SensorCreateBodyDto {
     description: 'Nitrite',
   })
   @IsNumber()
+  @IsOptional()
   nitrite: number;
 
   @ApiProperty({
@@ -50,6 +62,7 @@ export class SensorCreateBodyDto {
     description: 'Nitrate',
   })
   @IsNumber()
+  @IsOptional()
   nitrate: number;
 
   @ApiProperty({
@@ -57,7 +70,16 @@ export class SensorCreateBodyDto {
     description: 'Temperature',
   })
   @IsNumber()
+  @IsOptional()
   temperature: number;
+
+  @ApiProperty({
+    example: new Date(),
+    description: 'تاریخ ثبت',
+  })
+  @IsDateString()
+  @IsOptional()
+  createdAt: Date;
 
   @ApiProperty({
     example: '62f72a973515f21eb3661f9a',

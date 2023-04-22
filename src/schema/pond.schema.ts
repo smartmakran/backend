@@ -14,6 +14,9 @@ export class PondDimensions {
 
   @Prop({ required: true })
   depth: number;
+
+  @Prop({ required: true })
+  waterHeight: number;
 }
 
 @Schema({ collection: 'ponds', timestamps: true })
@@ -44,9 +47,22 @@ export class Pond extends Base {
   status: PondStatus;
 
   @Prop({
-    type: Date,
+    type: Number,
+    required: true,
   })
-  lastFishing: Date;
+  larvaCount: number;
+
+  @Prop({
+    type: Number,
+    required: true,
+  })
+  density: number;
+
+  @Prop({
+    type: Date,
+    required: true,
+  })
+  startFarming: Date;
 }
 
 export const PondSchema = SchemaFactory.createForClass(Pond);
