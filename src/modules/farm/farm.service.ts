@@ -18,6 +18,7 @@ import {
 } from './dto';
 import { FarmCreateBodyDto } from './dto/create-body.dto';
 import { Pond, PondDocument } from 'schema/pond.schema';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class FarmService
@@ -37,7 +38,7 @@ export class FarmService
   ): Promise<GetAllFarmResponseDto> {
     const { skip, limit } = query;
     const dbQuery: any = {
-      owner: request.user._d,
+      owner: new ObjectId(request.user._d),
     };
 
     if (query.name) {
