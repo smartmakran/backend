@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { ParamIdDto } from 'dto/paramId.dto';
@@ -37,8 +38,9 @@ export class FarmController
   @ApiOperation({ summary: 'لیست تمام مزرعه‌ها' })
   public async getAll(
     @Query() query: GetAllFarmQueryDto,
+    @Req() request: Record<string, any>,
   ): Promise<GetAllFarmResponseDto> {
-    return await this.farmService.getAll(query);
+    return await this.farmService.getAll(query, request);
   }
 
   @Post()

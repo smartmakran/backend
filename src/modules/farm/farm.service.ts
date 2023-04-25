@@ -31,9 +31,14 @@ export class FarmService
   @InjectModel(Pond.name) private readonly pondModel: Model<PondDocument>;
   @Inject() private readonly userService: UserService;
 
-  async getAll(query: GetAllFarmQueryDto): Promise<GetAllFarmResponseDto> {
+  async getAll(
+    query: GetAllFarmQueryDto,
+    request: Record<string, any>,
+  ): Promise<GetAllFarmResponseDto> {
     const { skip, limit } = query;
-    const dbQuery: any = {};
+    const dbQuery: any = {
+      owner: request.user._d,
+    };
 
     if (query.name) {
       dbQuery.name = { $regex: query.name, $options: 'i' };
