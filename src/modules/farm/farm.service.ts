@@ -38,7 +38,7 @@ export class FarmService
   ): Promise<GetAllFarmResponseDto> {
     const { skip, limit } = query;
     const dbQuery: any = {
-      owner: new ObjectId(request.user._d),
+      owner: new ObjectId(request.user._id),
     };
 
     if (query.name) {
