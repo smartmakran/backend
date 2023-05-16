@@ -34,7 +34,7 @@ export class ManualMonitoringController {
     await this.manualMonitoringService.createFeeding(body);
   }
 
-  @Post('changing-water')
+  @Post('changingWater')
   @ApiOperation({ summary: 'ثبت تعویض آب' })
   async createWaterChanging(
     @Body() body: CreateChangingWaterBodyDto,
