@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  SetMetadata,
+} from '@nestjs/common';
 import { ManualMonitoringService } from './manualMonitoring.service';
-import { ApiSecurity, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateChangingWaterBodyDto,
   CreateFeedingBodyDto,
@@ -10,8 +18,8 @@ import {
 import { ParamIdDto } from 'dto/paramId.dto';
 
 @Controller('manualMonitoring')
-@ApiSecurity('Authorization')
 @ApiTags('Manual Monitoring')
+@SetMetadata('isPublic', true)
 export class ManualMonitoringController {
   @Inject()
   private readonly manualMonitoringService: ManualMonitoringService;
