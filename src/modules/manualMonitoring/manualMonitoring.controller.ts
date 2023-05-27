@@ -11,7 +11,9 @@ import { ManualMonitoringService } from './manualMonitoring.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateChangingWaterBodyDto,
+  CreateFatalityBodyDto,
   CreateFeedingBodyDto,
+  CreateFeedingCheckBodyDto,
   CreateSamplingBodyDto,
   CreateTransparencyBodyDto,
 } from './dto/create-body.dto';
@@ -60,5 +62,21 @@ export class ManualMonitoringController {
     @Body() body: CreateTransparencyBodyDto,
   ): Promise<void> {
     await this.manualMonitoringService.createTransparency(body);
+  }
+
+  @Post('feedingCheck')
+  @SetMetadata('isPublic', true)
+  @ApiOperation({ summary: 'ثبت وضعیت غذادهی' })
+  async createFeedingCheck(
+    @Body() body: CreateFeedingCheckBodyDto,
+  ): Promise<void> {
+    await this.manualMonitoringService.createFeedingCheck(body);
+  }
+
+  @Post('fatality')
+  @SetMetadata('isPublic', true)
+  @ApiOperation({ summary: 'ثبت غذادهی' })
+  async createFatality(@Body() body: CreateFatalityBodyDto): Promise<void> {
+    await this.manualMonitoringService.createFatality(body);
   }
 }

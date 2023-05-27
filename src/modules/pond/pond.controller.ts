@@ -8,8 +8,16 @@ import {
   Post,
   Put,
   Query,
+  SetMetadata,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {
+  ApiConsumes,
+  ApiOperation,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetAllResponseDto } from 'dto';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { IGetAll, ICreate, IGetOne } from 'interface';
@@ -20,6 +28,9 @@ import {
 } from './dto';
 
 import { PondService } from './pond.service';
+import { AddImageBodyDto } from './dto/add-image-body.dto';
+import { diskStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('pond')
 @ApiTags('Pond')
@@ -67,5 +78,30 @@ export class PondController
   @ApiOperation({ summary: 'حذف استخر' })
   public async delete(@Param() params: any): Promise<any> {
     return await this.pondService.delete(params.id);
+  }
+
+  @Post('add-image')
+  @SetMetadata('isPublic', true)
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './files',
+        filename: PondService.editFileName,
+      }),
+      limits: {
+        fileSize: PondService.fileSizeLimitation() * 1024 * 1024,
+      },
+      fileFilter: PondService.imageFilter,
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary: 'ثبت تیکت جدید',
+  })
+  createTicket(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() payload: AddImageBodyDto,
+  ): Promise<any> {
+    return this.pondService.addImage(payload, file);
   }
 }

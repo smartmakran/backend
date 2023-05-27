@@ -26,7 +26,7 @@ export class GetAllQueryDto {
     required: false,
     example: DateTime.now().minus({ day: 2 }).toJSDate(),
   })
-  @IsDateString({ message: 'startDate باید فرمت تاریخ داشته باشد.' })
+  @IsDateString()
   @IsOptional()
   startDate: Date;
 
@@ -34,7 +34,7 @@ export class GetAllQueryDto {
     required: false,
     example: DateTime.now().toJSDate(),
   })
-  @IsDateString({ message: 'endDate باید فرمت تاریخ داشته باشد.' })
+  @IsDateString()
   @IsOptional()
   endDate: Date;
 }
