@@ -5,7 +5,12 @@ import { Model } from 'mongoose';
 import {
   ChangingWater,
   ChangingWaterDocument,
-} from 'schema/changingWater.schema';
+} from 'schema/changing-water.schema';
+import { Fatality, FatalityDocument } from 'schema/fatality.schema';
+import {
+  FeedingCheck,
+  FeedingCheckDocument,
+} from 'schema/feeding-check.schema';
 import { Feeding, FeedingDocument } from 'schema/feeding.schema';
 import { Sampling, SamplingDocument } from 'schema/sampling.schema';
 import { Transparency, TransparencyDocument } from 'schema/transparency.schema';
@@ -23,6 +28,12 @@ export class ManualMonitoringService {
 
   @InjectModel(Transparency.name)
   private readonly transparencyModel: Model<TransparencyDocument>;
+
+  @InjectModel(FeedingCheck.name)
+  private readonly feedingCheckModel: Model<FeedingCheckDocument>;
+
+  @InjectModel(Fatality.name)
+  private readonly fatalityModel: Model<FatalityDocument>;
 
   @Inject()
   private readonly pondService: PondService;
@@ -63,5 +74,15 @@ export class ManualMonitoringService {
   async createTransparency(body: any): Promise<void> {
     await this.pondService.getOrThrowError(body.pond);
     await this.transparencyModel.create(body);
+  }
+
+  async createFeedingCheck(body: any): Promise<void> {
+    await this.pondService.getOrThrowError(body.pond);
+    await this.feedingCheckModel.create(body);
+  }
+
+  async createFatality(body: any): Promise<void> {
+    await this.pondService.getOrThrowError(body.pond);
+    await this.fatalityModel.create(body);
   }
 }

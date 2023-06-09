@@ -44,3 +44,15 @@ export class CreateTransparencyBodyDto extends CreateBodyDto {
   @IsNumber()
   amount: number;
 }
+
+export class CreateFeedingCheckBodyDto extends CreateBodyDto {
+  @ApiProperty({})
+  @IsString()
+  status: string;
+}
+
+export class CreateFatalityBodyDto extends CreateBodyDto {
+  @ApiProperty({})
+  @IsNumber()
+  amount: number;
+}

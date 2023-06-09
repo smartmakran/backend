@@ -1,15 +1,15 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 import setupSwagger from './swagger/swagger';
 import { addAliases } from 'module-alias';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ValidationPipe } from '@nestjs/common';
 import { RolesGuard } from 'guards/roles.guard';
 import mongoose from 'mongoose';
+import {
+  ExpressAdapter,
+  NestExpressApplication,
+} from '@nestjs/platform-express';
 
 if (process.env.NODE_ENV === 'production') {
   addAliases({
@@ -21,9 +21,10 @@ if (process.env.NODE_ENV === 'production') {
 
 async function bootstrap() {
   try {
-    const adapter = new FastifyAdapter({ bodyLimit: 10 * 1024 * 1024 });
+    const adapter = new ExpressAdapter();
     adapter.enableCors({ origin: '*' });
-    const app = await NestFactory.create<NestFastifyApplication>(
+
+    const app = await NestFactory.create<NestExpressApplication>(
       AppModule,
       adapter,
     );
@@ -39,7 +40,7 @@ async function bootstrap() {
 
     mongoose.set('debug', true);
 
-    setupSwagger(app, adapter.getInstance());
+    setupSwagger(app);
 
     await app.listen(Number(process.env.PORT), process.env.HOST, () => {
       console.log(

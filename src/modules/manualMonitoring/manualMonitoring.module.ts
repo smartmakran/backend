@@ -5,11 +5,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   ChangingWater,
   ChangingWaterSchema,
-} from 'schema/changingWater.schema';
+} from 'schema/changing-water.schema';
 import { Feeding, FeedingSchema } from 'schema/feeding.schema';
 import { Sampling, SamplingSchema } from 'schema/sampling.schema';
 import { Transparency, TransparencySchema } from 'schema/transparency.schema';
 import { PondModule } from '@modules/pond/pond.module';
+import { FeedingCheck, FeedingCheckSchema } from 'schema/feeding-check.schema';
+import { Fatality, FatalitySchema } from 'schema/fatality.schema';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { PondModule } from '@modules/pond/pond.module';
       { name: Feeding.name, schema: FeedingSchema },
       { name: ChangingWater.name, schema: ChangingWaterSchema },
       { name: Transparency.name, schema: TransparencySchema },
+      { name: FeedingCheck.name, schema: FeedingCheckSchema },
+      { name: Fatality.name, schema: FatalitySchema },
     ]),
     PondModule,
   ],
