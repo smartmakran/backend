@@ -54,6 +54,7 @@ export class SensorService
       nitrite,
       nitrate,
       temperature,
+      createdAt,
     } = payload;
 
     const ponds = await this.userService.getUserPondsBySensorsKey(sensorsKey);
@@ -73,6 +74,7 @@ export class SensorService
       nitrite,
       nitrate,
       temperature,
+      createdAt,
     });
 
     const data = await this.getSensorDataByPondId(pond.toString());
