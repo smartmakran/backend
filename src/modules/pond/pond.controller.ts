@@ -82,26 +82,26 @@ export class PondController
 
   @Post('add-image')
   @SetMetadata('isPublic', true)
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './files',
-        filename: PondService.editFileName,
-      }),
-      limits: {
-        fileSize: PondService.fileSizeLimitation() * 1024 * 1024,
-      },
-      fileFilter: PondService.imageFilter,
-    }),
-  )
+  // @UseInterceptors(
+  //   FileInterceptor('file', {
+  //     storage: diskStorage({
+  //       destination: './files',
+  //       filename: PondService.editFileName,
+  //     }),
+  //     limits: {
+  //       fileSize: PondService.fileSizeLimitation() * 1024 * 1024,
+  //     },
+  //     fileFilter: PondService.imageFilter,
+  //   }),
+  // )
   @ApiConsumes('multipart/form-data')
   @ApiOperation({
     summary: 'ثبت تیکت جدید',
   })
   createTicket(
-    @UploadedFile() file: Express.Multer.File,
+    // @UploadedFile() file: Express.Multer.File,
     @Body() payload: AddImageBodyDto,
   ): Promise<any> {
-    return this.pondService.addImage(payload, file);
+    return this.pondService.addImage(payload);
   }
 }

@@ -2,6 +2,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import path = require('path');
+import toReadableStream from 'to-readable-stream';
 
 @Injectable()
 export class UploadService {
@@ -40,6 +41,35 @@ export class UploadService {
 
     try {
       return await this.s3.send(new PutObjectCommand(uploadParams));
+    } catch (err) {
+      console.log('Error', err);
+    }
+  }
+
+  async uploadBase64File(file: string): Promise<any> {
+    const regex = /data:image\/(.*);base64,/m;
+    const [match, extension] = regex.exec(file);
+
+    file = file.replace(match, '');
+
+    const fileBuffer = Buffer.from(file, 'base64');
+    const fileStream = toReadableStream(fileBuffer);
+
+    const time = new Date().getTime();
+    const fileName = `${time}.${extension}`;
+
+    const uploadParams = {
+      Bucket: 'smartmakran', // bucket name
+      Key: fileName, // the name of the selected file
+      ACL: 'public-read', // 'private' | 'public-read'
+    };
+
+    // call S3 to upload file to specified bucket
+    uploadParams['Body'] = fileStream;
+
+    try {
+      await this.s3.send(new PutObjectCommand(uploadParams));
+      return { fileName };
     } catch (err) {
       console.log('Error', err);
     }
