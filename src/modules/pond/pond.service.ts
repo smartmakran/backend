@@ -19,6 +19,7 @@ import { extname } from 'path';
 import { UploadService } from 'shared/services/upload.service';
 import { unlink, unlinkSync } from 'fs';
 import { PondImage, PondImageDocument } from 'schema/pond-image.schema';
+import { AddImageBodyDto } from './dto/add-image-body.dto';
 
 @Injectable()
 export class PondService
@@ -108,9 +109,9 @@ export class PondService
     return pond;
   }
 
-  async addImage(payload: any, file) {
+  async addImage(payload: AddImageBodyDto) {
     try {
-      const result = await this.uploadService.uploadFile(file.path);
+      const result = await this.uploadService.uploadBase64File(payload.file);
       if (result.$metadata.httpStatusCode !== 200) {
         throw new Error('upload was not successful.');
       }
@@ -118,18 +119,16 @@ export class PondService
       await this.pondImageModel.create({
         pond: payload.pondId,
         type: payload.type,
-        file: `${process.env.ARVAN_S3_BASE_URL}${file.filename}`,
+        file: `${process.env.ARVAN_S3_BASE_URL}${result.filename}`,
         createdAt: payload.createdAt,
       });
 
       return {
-        file: `${process.env.ARVAN_S3_BASE_URL}${file.filename}`,
+        file: `${process.env.ARVAN_S3_BASE_URL}${result.filename}`,
       };
     } catch (e) {
       console.log(e);
       throw new InternalServerErrorException();
-    } finally {
-      unlinkSync(file.path);
     }
   }
 
