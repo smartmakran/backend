@@ -92,7 +92,44 @@ export class FarmService
 
   async getOne(params: ParamIdDto): Promise<GetOneFarmResponseDto> {
     const farm = await this.getOrThrowError(params.id);
-    const ponds = await this.pondModel.find({ farm });
+    const ponds = await this.pondModel
+      .aggregate([])
+      .match({ farm: farm._id })
+      .lookup({
+        from: 'sensors',
+        as: 'sensorData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'samplings',
+        as: 'samplingData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'feedings',
+        as: 'feedingData',
+        localField: '_id',
+        foreignField: 'pond',
+      })
+      .lookup({
+        from: 'transparencies',
+        as: 'transparencyData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'fatality',
+        as: 'fatalityData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      });
+
     farm['ponds'] = ponds;
 
     return plainToInstance(GetOneFarmResponseDto, farm, {

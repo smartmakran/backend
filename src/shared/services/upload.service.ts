@@ -1,7 +1,7 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import path = require('path');
+import * as path from 'path';
 import toReadableStream from 'to-readable-stream';
 
 @Injectable()
@@ -53,7 +53,7 @@ export class UploadService {
     file = file.replace(match, '');
 
     const fileBuffer = Buffer.from(file, 'base64');
-    const fileStream = toReadableStream(fileBuffer);
+    // const fileStream = toReadableStream<Buffer>(fileBuffer);
 
     const time = new Date().getTime();
     const fileName = `${time}.${extension}`;
@@ -65,7 +65,7 @@ export class UploadService {
     };
 
     // call S3 to upload file to specified bucket
-    uploadParams['Body'] = fileStream;
+    uploadParams['Body'] = fileBuffer;
 
     try {
       await this.s3.send(new PutObjectCommand(uploadParams));
