@@ -15,16 +15,11 @@ export class Sampling {
   pond: ObjectId;
 
   @Prop({
-    type: Number,
+    type: [Number],
+    array: true,
     required: true,
   })
-  averageSize: number;
-
-  @Prop({
-    type: Number,
-    required: true,
-  })
-  averageMass: number;
+  size: number[];
 
   @Prop({
     type: Date,

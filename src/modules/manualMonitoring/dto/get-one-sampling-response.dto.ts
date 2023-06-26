@@ -4,9 +4,9 @@ import { Expose } from 'class-transformer';
 export class GetOneSamplingResponseDto {
   @ApiProperty()
   @Expose()
-  averageSize: number;
+  size: number[];
 
   @ApiProperty()
   @Expose()
-  averageMass: number;
+  createdAt: Date;
 }

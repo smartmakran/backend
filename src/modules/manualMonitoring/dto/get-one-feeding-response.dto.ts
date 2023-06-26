@@ -9,4 +9,8 @@ export class GetOneFeedingResponseDto {
   @ApiProperty()
   @Expose()
   type: string;
+
+  @ApiProperty()
+  @Expose()
+  createdAt: Date;
 }

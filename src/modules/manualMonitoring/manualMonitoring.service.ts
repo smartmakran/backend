@@ -58,7 +58,7 @@ export class ManualMonitoringService {
 
   async createSampling(body: any): Promise<void> {
     await this.pondService.getOrThrowError(body.pond);
-    await this.samplingModel.create({ ...body, averageMass: 0 });
+    await this.samplingModel.create({ ...body });
   }
 
   async createFeeding(body: any): Promise<void> {

@@ -5,4 +5,8 @@ export class GetOneTransparencyResponseDto {
   @ApiProperty()
   @Expose()
   amount: number;
+
+  @ApiProperty()
+  @Expose()
+  createdAt: Date;
 }

@@ -5,4 +5,8 @@ export class GetOneFatalityResponseDto {
   @ApiProperty()
   @Expose()
   amount: number;
+
+  @ApiProperty()
+  @Expose()
+  createdAt: Date;
 }
