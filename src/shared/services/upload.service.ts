@@ -53,7 +53,7 @@ export class UploadService {
     file = file.replace(match, '');
 
     const fileBuffer = Buffer.from(file, 'base64');
-    // const fileStream = toReadableStream<Buffer>(fileBuffer);
+    const fileStream = toReadableStream(fileBuffer);
 
     const time = new Date().getTime();
     const fileName = `${time}.${extension}`;
@@ -62,10 +62,11 @@ export class UploadService {
       Bucket: 'smartmakran', // bucket name
       Key: fileName, // the name of the selected file
       ACL: 'public-read', // 'private' | 'public-read'
+      ContentLength: fileBuffer.byteLength,
     };
 
     // call S3 to upload file to specified bucket
-    uploadParams['Body'] = fileBuffer;
+    uploadParams['Body'] = fileStream;
 
     try {
       await this.s3.send(new PutObjectCommand(uploadParams));

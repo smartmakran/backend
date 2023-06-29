@@ -8,12 +8,15 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
-import { GetAllResponseDto } from 'dto';
 import { ParamIdDto } from 'dto/paramId.dto';
 import { ICreate, IGetAll, IGetOne } from 'interface';
 import { Model } from 'mongoose';
 import { Pond, PondDocument } from 'schema/pond.schema';
-import { GetAllPondQueryDto, GetOnePondResponseDto } from './dto';
+import {
+  GetAllPondQueryDto,
+  GetAllPondsResponseDto,
+  GetOnePondResponseDto,
+} from './dto';
 import { PondCreateBodyDto } from './dto/create-body.dto';
 import { extname } from 'path';
 import { UploadService } from 'shared/services/upload.service';
@@ -35,7 +38,7 @@ import { Fatality, FatalityDocument } from 'schema/fatality.schema';
 @Injectable()
 export class PondService
   implements
-    IGetAll<GetAllPondQueryDto, GetAllResponseDto<GetOnePondResponseDto>>,
+    IGetAll<GetAllPondQueryDto, GetAllPondsResponseDto>,
     IGetOne<GetOnePondResponseDto>,
     ICreate<PondCreateBodyDto>
 {
@@ -69,19 +72,24 @@ export class PondService
   @Inject()
   private readonly sensorService: SensorService;
 
-  async getAll(
-    query: GetAllPondQueryDto,
-  ): Promise<GetAllResponseDto<GetOnePondResponseDto>> {
+  async getAll(query: GetAllPondQueryDto): Promise<GetAllPondsResponseDto> {
     const { skip, limit } = query;
     const [data, count] = await Promise.all([
       this.pondModel.find({ skip, limit }),
       this.pondModel.countDocuments(),
     ]);
 
-    return plainToInstance(GetAllResponseDto<GetOnePondResponseDto>, {
-      count,
-      data,
-    });
+    return plainToInstance(
+      GetAllPondsResponseDto,
+      {
+        count,
+        data,
+      },
+      {
+        excludeExtraneousValues: true,
+        enableImplicitConversion: true,
+      },
+    );
   }
 
   async create(payload: PondCreateBodyDto): Promise<any> {
@@ -169,21 +177,23 @@ export class PondService
   }
 
   async addImage(payload: AddImageBodyDto) {
+    let result = null;
     try {
-      const result = await this.uploadService.uploadBase64File(payload.file);
-      if (result.$metadata.httpStatusCode !== 200) {
-        throw new Error('upload was not successful.');
-      }
+      result = await this.uploadService.uploadBase64File(payload.file);
+    } catch (e) {
+      throw new InternalServerErrorException('upload was not successful.');
+    }
 
+    try {
       await this.pondImageModel.create({
         pond: payload.pondId,
         type: payload.type,
-        file: `${process.env.ARVAN_S3_BASE_URL}${result.filename}`,
+        file: `${process.env.ARVAN_S3_BASE_URL}${result.fileName}`,
         createdAt: payload.createdAt,
       });
 
       return {
-        file: `${process.env.ARVAN_S3_BASE_URL}${result.filename}`,
+        file: `${process.env.ARVAN_S3_BASE_URL}${result.fileName}`,
       };
     } catch (e) {
       console.log(e);

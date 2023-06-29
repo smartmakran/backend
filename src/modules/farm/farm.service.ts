@@ -58,7 +58,7 @@ export class FarmService
     dbQuery.deleted = { $ne: true };
 
     const [data, count] = await Promise.all([
-      this.farmModel.find(dbQuery).skip(skip).limit(limit),
+      this.farmModel.find(dbQuery).populate('owner').skip(skip).limit(limit),
       this.farmModel.countDocuments(dbQuery),
     ]);
 
@@ -100,7 +100,11 @@ export class FarmService
         as: 'sensorData',
         localField: '_id',
         foreignField: 'pond',
-        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+        pipeline: [
+          { $sort: { createdAt: -1 } },
+          { $limit: 1 },
+          { $project: { _id: 0 } },
+        ],
       })
       .lookup({
         from: 'samplings',
@@ -134,6 +138,7 @@ export class FarmService
 
     return plainToInstance(GetOneFarmResponseDto, farm, {
       excludeExtraneousValues: true,
+      enableImplicitConversion: true,
     });
   }
 
@@ -156,7 +161,7 @@ export class FarmService
   }
 
   async getOrThrowError(id: string): Promise<Farm> {
-    const farm = await this.farmModel.findOne({ _id: id });
+    const farm = await this.farmModel.findOne({ _id: id }).populate('owner');
     if (!farm || farm.deleted) {
       throw new NotFoundException('مزرعه‌ای با این شناسه یافت نشد.');
     }

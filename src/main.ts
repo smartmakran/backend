@@ -6,6 +6,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ValidationPipe } from '@nestjs/common';
 import { RolesGuard } from 'guards/roles.guard';
 import mongoose from 'mongoose';
+import * as express from 'express';
 import {
   ExpressAdapter,
   NestExpressApplication,
@@ -37,6 +38,7 @@ async function bootstrap() {
         transform: true,
       }),
     );
+    app.use(express.json({ limit: '5mb' }));
 
     mongoose.set('debug', true);
 

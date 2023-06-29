@@ -58,6 +58,7 @@ export class GetOneFarmResponseDto {
     description: 'صاحب مزرعه',
   })
   @Expose()
+  @Type(() => GetOneUserResponseDto)
   owner: GetOneUserResponseDto;
 
   @ApiProperty({
@@ -74,7 +75,7 @@ export class GetOneFarmResponseDto {
   @Expose()
   updatedAt: Date;
 
-  @ApiProperty({})
+  @ApiProperty()
   @Expose()
   @Type(() => GetOnePondResponseDto)
   ponds: GetOnePondResponseDto[];

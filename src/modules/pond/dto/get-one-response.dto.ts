@@ -9,6 +9,7 @@ import { GetOneSamplingResponseDto } from '@modules/manualMonitoring/dto/get-one
 import { GetOneFeedingResponseDto } from '@modules/manualMonitoring/dto/get-one-feeding-response.dto';
 import { GetOneTransparencyResponseDto } from '@modules/manualMonitoring/dto/get-one-transparency-response.dto';
 import { GetOneFatalityResponseDto } from '@modules/manualMonitoring/dto/get-one-fatality-response.dto';
+import { Types } from 'mongoose';
 
 export class GetOnePondDimensionsResponseDto {
   @ApiProperty({
@@ -55,10 +56,11 @@ export class GetOnePondResponseDto {
   dimensions: GetOnePondDimensionsResponseDto;
 
   @ApiProperty({
+    type: String,
     description: 'مزرعه',
   })
   @Expose()
-  farm: GetOneFarmResponseDto;
+  farm: string;
 
   @ApiProperty({})
   @Expose()
