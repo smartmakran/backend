@@ -95,6 +95,13 @@ export class FarmService
     const ponds = await this.pondModel
       .aggregate([])
       .match({ farm: farm._id })
+      .project({
+        id: '$_id',
+        name: 1,
+        dimensions: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
       .lookup({
         from: 'sensors',
         as: 'sensorData',

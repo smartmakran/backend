@@ -37,7 +37,7 @@ export class GetOnePondDimensionsResponseDto {
 export class GetOnePondResponseDto {
   @ApiProperty({
     example: '5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f',
-    description: 'شناسه مزرعه',
+    description: 'شناسه حوضچه',
   })
   @Expose()
   id: string;
