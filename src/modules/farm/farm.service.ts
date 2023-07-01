@@ -99,6 +99,9 @@ export class FarmService
         id: '$_id',
         name: 1,
         dimensions: 1,
+        startFarming: 1,
+        larvaCount: 1,
+        density: 1,
         createdAt: 1,
         updatedAt: 1,
       })
