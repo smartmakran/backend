@@ -1,6 +1,7 @@
 import { FarmService } from '@modules/farm/farm.service';
 import {
   BadRequestException,
+  ConflictException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -207,6 +208,11 @@ export class PondService
   ) {
     const pond = await this.getOrThrowError(params.id);
 
+    const diagramConfig = await this.diagramConfigModel.findOne({ pond });
+    if (diagramConfig) {
+      throw new ConflictException('There is a diagram config for this pond!');
+    }
+
     await this.diagramConfigModel.create({
       pond,
       ph: payload.ph,
@@ -236,22 +242,25 @@ export class PondService
       throw new NotFoundException();
     }
 
-    await this.diagramConfigModel.create({
-      pond,
-      ph: payload.ph || diagramConfig.ph,
-      oxygen: payload.oxygen || diagramConfig.oxygen,
-      orp: payload.orp || diagramConfig.orp,
-      ec: payload.ec || diagramConfig.ec,
-      ammonia: payload.ammonia || diagramConfig.ammonia,
-      nitrite: payload.nitrite || diagramConfig.nitrite,
-      nitrate: payload.nitrate || diagramConfig.nitrate,
-      temperature: payload.temperature || diagramConfig.temperature,
-      transparency: payload.transparency || diagramConfig.transparency,
-      sampling: payload.sampling || diagramConfig.sampling,
-      feeding: payload.feeding || diagramConfig.feeding,
-      changingWater: payload.changingWater || diagramConfig.changingWater,
-      mortality: payload.mortality || diagramConfig.mortality,
-    });
+    await this.diagramConfigModel.updateOne(
+      { _id: diagramConfig._id },
+      {
+        pond,
+        ph: payload.ph || diagramConfig.ph,
+        oxygen: payload.oxygen || diagramConfig.oxygen,
+        orp: payload.orp || diagramConfig.orp,
+        ec: payload.ec || diagramConfig.ec,
+        ammonia: payload.ammonia || diagramConfig.ammonia,
+        nitrite: payload.nitrite || diagramConfig.nitrite,
+        nitrate: payload.nitrate || diagramConfig.nitrate,
+        temperature: payload.temperature || diagramConfig.temperature,
+        transparency: payload.transparency || diagramConfig.transparency,
+        sampling: payload.sampling || diagramConfig.sampling,
+        feeding: payload.feeding || diagramConfig.feeding,
+        changingWater: payload.changingWater || diagramConfig.changingWater,
+        mortality: payload.mortality || diagramConfig.mortality,
+      },
+    );
   }
 
   static editFileName(req, file, callback) {

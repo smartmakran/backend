@@ -92,7 +92,7 @@ export class PondController
   }
 
   @Post(':id/diagram-config')
-  @ApiOperation({ summary: 'ثبت استخر جدید' })
+  @ApiOperation({ summary: 'ثبت تنظیمات استخر جدید' })
   public async createDiagramConfig(
     @Param() param: ParamIdDto,
     @Body() payload: CreateDiagramConfigBodyDto,
@@ -101,7 +101,7 @@ export class PondController
   }
 
   @Put(':id/diagram-config')
-  @ApiOperation({ summary: 'ثبت استخر جدید' })
+  @ApiOperation({ summary: 'اپدیت تنظیمات استخر جدید' })
   public async updateDiagramConfig(
     @Param() param: ParamIdDto,
     @Body() payload: UpdateDiagramConfigBodyDto,
