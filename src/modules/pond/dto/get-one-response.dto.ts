@@ -1,15 +1,12 @@
-import { GetOneFarmResponseDto } from '@modules/farm/dto';
-import { GetOneUserResponseDto } from '@modules/user/dto/get-one-user-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { Country } from 'enum/country.enum';
 import { GetOneDiagramConfigResponseDto } from './get-one-diagram-config-response.dto';
 import { GetOneSensorResponseDto } from '@modules/sensor/dto';
 import { GetOneSamplingResponseDto } from '@modules/manualMonitoring/dto/get-one-sampling-response.dto';
 import { GetOneFeedingResponseDto } from '@modules/manualMonitoring/dto/get-one-feeding-response.dto';
 import { GetOneTransparencyResponseDto } from '@modules/manualMonitoring/dto/get-one-transparency-response.dto';
 import { GetOneFatalityResponseDto } from '@modules/manualMonitoring/dto/get-one-fatality-response.dto';
-import { Types } from 'mongoose';
+import { GetOneChangingWaterResponseDto } from '@modules/manualMonitoring/dto/get-one-changing-water-response.dto';
 
 export class GetOnePondDimensionsResponseDto {
   @ApiProperty({
@@ -111,4 +108,9 @@ export class GetOnePondResponseDto {
   @Expose()
   @Type(() => GetOneFatalityResponseDto)
   fatalityData: GetOneFatalityResponseDto;
+
+  @ApiProperty()
+  @Expose()
+  @Type(() => GetOneChangingWaterResponseDto)
+  changingWater: GetOneChangingWaterResponseDto;
 }

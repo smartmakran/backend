@@ -142,6 +142,13 @@ export class FarmService
         localField: '_id',
         foreignField: 'pond',
         pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'changingWaters',
+        as: 'changingWaterData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
       });
 
     farm['ponds'] = ponds;
