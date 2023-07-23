@@ -112,5 +112,5 @@ export class GetOnePondResponseDto {
   @ApiProperty()
   @Expose()
   @Type(() => GetOneChangingWaterResponseDto)
-  changingWater: GetOneChangingWaterResponseDto;
+  changingWaterData: GetOneChangingWaterResponseDto;
 }
