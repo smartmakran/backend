@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsDate,
   IsDateString,
   IsMongoId,
@@ -18,9 +19,11 @@ class CreateBodyDto {
 }
 
 export class CreateSamplingBodyDto extends CreateBodyDto {
-  @ApiProperty({})
-  @IsNumber()
-  averageSize: number;
+  @ApiProperty({
+    example: [1, 2, 3],
+  })
+  @IsArray()
+  size: number[];
 }
 
 export class CreateFeedingBodyDto extends CreateBodyDto {

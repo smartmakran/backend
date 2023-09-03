@@ -1,20 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { Types } from 'mongoose';
 
 export class GetOneSensorResponseDto {
-  @ApiProperty({
-    example: '5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f',
-    description: 'شناسه رکورد',
-  })
-  @Expose()
-  _id: string;
-
   @ApiProperty({
     description: 'pH',
   })
   @Expose()
   ph: number;
+
+  @ApiProperty({
+    description: 'Oxygen',
+  })
+  @Expose()
+  oxygen: number;
 
   @ApiProperty({
     description: 'DO',
@@ -58,10 +56,7 @@ export class GetOneSensorResponseDto {
   @Expose()
   temperature: number;
 
-  @ApiProperty({
-    example: '5d8f8f8f8f8f8f8f8f8f8f8f',
-    description: 'شناسه استخر',
-  })
+  @ApiProperty({})
   @Expose()
-  pond: Types.ObjectId;
+  createdAt: Date;
 }

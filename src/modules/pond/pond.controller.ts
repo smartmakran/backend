@@ -31,6 +31,8 @@ import { PondService } from './pond.service';
 import { AddImageBodyDto } from './dto/add-image-body.dto';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateDiagramConfigBodyDto } from './dto/create-diagram-config-body.dto';
+import { UpdateDiagramConfigBodyDto } from './dto/update-diagram-config-body.dto';
 
 @Controller('pond')
 @ApiTags('Pond')
@@ -68,10 +70,10 @@ export class PondController
   @Put(':id')
   @ApiOperation({ summary: 'ویرایش استخر' })
   public async update(
-    @Param() params: any,
+    @Param() params: ParamIdDto,
     @Body() payload: any,
   ): Promise<any> {
-    return await this.pondService.update(params.id, payload);
+    return await this.pondService.update(params, payload);
   }
 
   @Delete(':id')
@@ -82,26 +84,28 @@ export class PondController
 
   @Post('add-image')
   @SetMetadata('isPublic', true)
-  // @UseInterceptors(
-  //   FileInterceptor('file', {
-  //     storage: diskStorage({
-  //       destination: './files',
-  //       filename: PondService.editFileName,
-  //     }),
-  //     limits: {
-  //       fileSize: PondService.fileSizeLimitation() * 1024 * 1024,
-  //     },
-  //     fileFilter: PondService.imageFilter,
-  //   }),
-  // )
-  @ApiConsumes('multipart/form-data')
   @ApiOperation({
-    summary: 'ثبت تیکت جدید',
+    summary: 'ثبت عکس جدید',
   })
-  createTicket(
-    // @UploadedFile() file: Express.Multer.File,
-    @Body() payload: AddImageBodyDto,
-  ): Promise<any> {
+  createTicket(@Body() payload: AddImageBodyDto): Promise<any> {
     return this.pondService.addImage(payload);
+  }
+
+  @Post(':id/diagram-config')
+  @ApiOperation({ summary: 'ثبت تنظیمات استخر جدید' })
+  public async createDiagramConfig(
+    @Param() param: ParamIdDto,
+    @Body() payload: CreateDiagramConfigBodyDto,
+  ): Promise<void> {
+    await this.pondService.createDiagramConfig(param, payload);
+  }
+
+  @Put(':id/diagram-config')
+  @ApiOperation({ summary: 'اپدیت تنظیمات استخر جدید' })
+  public async updateDiagramConfig(
+    @Param() param: ParamIdDto,
+    @Body() payload: UpdateDiagramConfigBodyDto,
+  ): Promise<void> {
+    await this.pondService.updateDiagramConfig(param, payload);
   }
 }

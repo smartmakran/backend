@@ -1,7 +1,7 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import path = require('path');
+import * as path from 'path';
 import toReadableStream from 'to-readable-stream';
 
 @Injectable()
@@ -62,6 +62,7 @@ export class UploadService {
       Bucket: 'smartmakran', // bucket name
       Key: fileName, // the name of the selected file
       ACL: 'public-read', // 'private' | 'public-read'
+      ContentLength: fileBuffer.byteLength,
     };
 
     // call S3 to upload file to specified bucket

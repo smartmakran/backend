@@ -58,7 +58,7 @@ export class FarmService
     dbQuery.deleted = { $ne: true };
 
     const [data, count] = await Promise.all([
-      this.farmModel.find(dbQuery).skip(skip).limit(limit),
+      this.farmModel.find(dbQuery).populate('owner').skip(skip).limit(limit),
       this.farmModel.countDocuments(dbQuery),
     ]);
 
@@ -92,11 +92,70 @@ export class FarmService
 
   async getOne(params: ParamIdDto): Promise<GetOneFarmResponseDto> {
     const farm = await this.getOrThrowError(params.id);
-    const ponds = await this.pondModel.find({ farm });
+    const ponds = await this.pondModel
+      .aggregate([])
+      .match({ farm: farm._id })
+      .project({
+        id: '$_id',
+        name: 1,
+        dimensions: 1,
+        startFarming: 1,
+        larvaCount: 1,
+        density: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      })
+      .lookup({
+        from: 'sensors',
+        as: 'sensorData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [
+          { $sort: { createdAt: -1 } },
+          { $limit: 1 },
+          { $project: { _id: 0 } },
+        ],
+      })
+      .lookup({
+        from: 'samplings',
+        as: 'samplingData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'feedings',
+        as: 'feedingData',
+        localField: '_id',
+        foreignField: 'pond',
+      })
+      .lookup({
+        from: 'transparencies',
+        as: 'transparencyData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'fatality',
+        as: 'fatalityData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      })
+      .lookup({
+        from: 'changingWaters',
+        as: 'changingWaterData',
+        localField: '_id',
+        foreignField: 'pond',
+        pipeline: [{ $sort: { createdAt: -1 } }, { $limit: 1 }],
+      });
+
     farm['ponds'] = ponds;
 
     return plainToInstance(GetOneFarmResponseDto, farm, {
       excludeExtraneousValues: true,
+      enableImplicitConversion: true,
     });
   }
 
@@ -119,7 +178,7 @@ export class FarmService
   }
 
   async getOrThrowError(id: string): Promise<Farm> {
-    const farm = await this.farmModel.findOne({ _id: id });
+    const farm = await this.farmModel.findOne({ _id: id }).populate('owner');
     if (!farm || farm.deleted) {
       throw new NotFoundException('مزرعه‌ای با این شناسه یافت نشد.');
     }
