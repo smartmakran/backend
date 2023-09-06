@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
@@ -22,7 +22,7 @@ export class AuthService {
   async register(payload: RegisterBodyDto): Promise<RegisterResponseDto> {
     const user = await this.userModel.findOne({ phone: payload.phone });
     if (user) {
-      throw new Error('این شماره تلفن قبلا ثبت شده است');
+      throw new ConflictException('این شماره تلفن قبلا ثبت شده است');
     }
 
     const data = {
@@ -47,10 +47,14 @@ export class AuthService {
 
     const token = this.generateToken(user);
 
-    return plainToInstance(LoginResponseDto, {
-      user,
-      token,
-    });
+    return plainToInstance(
+      LoginResponseDto,
+      {
+        user,
+        token,
+      },
+      { excludeExtraneousValues: true, enableImplicitConversion: true },
+    );
   }
 
   private hashPassword(password: string): string {
@@ -66,6 +70,7 @@ export class AuthService {
     const jwtPayload: JwtPayload = {
       _id: user._id,
       phone: user.phone,
+      roles: user.roles,
     };
     return this.jwtService.sign(jwtPayload, {
       secret: process.env.JWT_SECRET,

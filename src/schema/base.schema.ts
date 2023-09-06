@@ -12,20 +12,6 @@ export class Base {
   active: boolean;
 
   @Prop({
-    type: Date,
-    required: false,
-    default: () => new Date(),
-  })
-  createdAt: Date;
-
-  @Prop({
-    type: Date,
-    required: false,
-    default: null,
-  })
-  updatedAt: Date;
-
-  @Prop({
     type: Boolean,
     required: false,
     default: false,

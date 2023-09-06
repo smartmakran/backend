@@ -6,7 +6,8 @@ import { User, UserDocument } from 'schema/user.schema';
 import { JwtPayload } from './interface/jwt-payload.interface';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
+  @InjectModel(User.name) private userModel: Model<UserDocument>;
+  constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromHeader('authorization'),
       secretOrKey: process.env.JWT_SECRET,

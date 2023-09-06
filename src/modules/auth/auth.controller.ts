@@ -9,7 +9,7 @@ import {
 } from './dto';
 
 @Controller('auth')
-@ApiTags('ثبت‌نام و ورود')
+@ApiTags('Login & Register')
 export class AuthController {
   @Inject() private readonly authService: AuthService;
 
