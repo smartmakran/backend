@@ -1,6 +1,6 @@
+import { UserService } from '@modules/api/user/user.service';
 import { Injectable, CanActivate, Inject } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { UserService } from '@modules/user/user.service';
 
 @Injectable()
 export class SocketGuard implements CanActivate {

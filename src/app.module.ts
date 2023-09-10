@@ -1,16 +1,16 @@
-import { FarmModule } from '@modules/farm/farm.module';
-import { PondModule } from '@modules/pond/pond.module';
-import { SensorModule } from '@modules/sensor/sensor.module';
-import { SocketModule } from '@modules/socket/socket.module';
-import { TaskModule } from '@modules/task/task.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
-import { DashboardModule } from './modules/dashboard/dashboard.module';
-import { UserModule } from '@modules/user/user.module';
-import { ManualMonitoringModule } from '@modules/manualMonitoring/manualMonitoring.module';
+import { PondModule } from '@modules/api/pond/pond.module';
+import { DashboardModule } from '@modules/api/dashboard/dashboard.module';
+import { FarmModule } from '@modules/api/farm/farm.module';
+import { ManualMonitoringModule } from '@modules/api/manualMonitoring/manualMonitoring.module';
+import { SensorModule } from '@modules/api/sensor/sensor.module';
+import { TaskModule } from '@modules/api/task/task.module';
+import { UserModule } from '@modules/api/user/user.module';
+import { SocketModule } from '@modules/socket/socket.module';
 
 @Module({
   imports: [

@@ -1,4 +1,4 @@
-import { GetOneUserResponseDto } from '@modules/user/dto/get-one-user-response.dto';
+import { GetOneUserResponseDto } from '@modules/api/user/dto/get-one-user-response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 

@@ -11,6 +11,7 @@ import {
   ExpressAdapter,
   NestExpressApplication,
 } from '@nestjs/platform-express';
+import { join } from 'path';
 
 if (process.env.NODE_ENV === 'production') {
   addAliases({
@@ -31,14 +32,17 @@ async function bootstrap() {
     );
 
     const reflector = new Reflector();
-    app.useGlobalGuards(new JwtAuthGuard(reflector));
-    app.useGlobalGuards(new RolesGuard(reflector));
+    // app.useGlobalGuards(new JwtAuthGuard(reflector));
+    // app.useGlobalGuards(new RolesGuard(reflector));
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,
       }),
     );
     app.use(express.json({ limit: '5mb' }));
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.setViewEngine('hbs');
 
     mongoose.set('debug', true);
 

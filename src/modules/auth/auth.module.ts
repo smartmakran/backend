@@ -3,9 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { User, UserSchema } from 'schema/user.schema';
-import { AuthController } from './auth.controller';
+import { AuthApiController } from './auth-api.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
+import { AuthPageController } from './auth-page.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { JwtStrategy } from './jwt.strategy';
       },
     ]),
   ],
-  controllers: [AuthController],
+  controllers: [AuthApiController, AuthPageController],
   providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

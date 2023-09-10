@@ -19,7 +19,29 @@ export class AuthService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async register(payload: RegisterBodyDto): Promise<RegisterResponseDto> {
+  async loginPage(): Promise<any> {
+    return { title: 'Login' };
+  }
+
+  async loginAction(payload: LoginBodyDto): Promise<LoginResponseDto> {
+    const user = await this.userModel.findOne({ phone: payload.phone });
+    if (!user || !this.comparePassword(payload.password, user.password)) {
+      throw new UnauthorizedException('کاربری با این مشخصات یافت نشد.');
+    }
+
+    const token = this.generateToken(user);
+
+    return plainToInstance(
+      LoginResponseDto,
+      {
+        user,
+        token,
+      },
+      { excludeExtraneousValues: true, enableImplicitConversion: true },
+    );
+  }
+
+  async registerPage(payload: RegisterBodyDto): Promise<RegisterResponseDto> {
     const user = await this.userModel.findOne({ phone: payload.phone });
     if (user) {
       throw new ConflictException('این شماره تلفن قبلا ثبت شده است');
@@ -39,22 +61,24 @@ export class AuthService {
     });
   }
 
-  async login(payload: LoginBodyDto): Promise<LoginResponseDto> {
+  async registerAction(payload: RegisterBodyDto): Promise<RegisterResponseDto> {
     const user = await this.userModel.findOne({ phone: payload.phone });
-    if (!user || !this.comparePassword(payload.password, user.password)) {
-      throw new UnauthorizedException('کاربری با این مشخصات یافت نشد.');
+    if (user) {
+      throw new ConflictException('این شماره تلفن قبلا ثبت شده است');
     }
 
-    const token = this.generateToken(user);
+    const data = {
+      fullName: payload.fullName,
+      phone: payload.phone,
+      password: this.hashPassword(payload.password),
+    };
 
-    return plainToInstance(
-      LoginResponseDto,
-      {
-        user,
-        token,
-      },
-      { excludeExtraneousValues: true, enableImplicitConversion: true },
-    );
+    await this.userModel.create(data);
+
+    return plainToInstance(RegisterResponseDto, {
+      status: 'success',
+      message: 'ثبت‌نام با موفقیت انجام شد',
+    });
   }
 
   private hashPassword(password: string): string {
