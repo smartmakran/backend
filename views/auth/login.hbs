@@ -1,10 +1,56 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>App</title>
-  </head>
-  <body>
-    {{ title }}
-  </body>
-</html>
+{{#> base}}
+
+{{#*inline "content"}}
+
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="#"><b>ورود به پنل</b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg">از طریق فرم زیر وارد پنل خود شود</p>
+
+      <form>
+        <div class="form-group">
+          <input type="phone" class="form-control" id="login-phone" placeholder="شماره همراه">
+          <span class="help-block login-error d-none">شماره تلفن معتبر نیست</span>
+        </div>
+        <div class="form-group has-feedback">
+          <input type="password" class="form-control" id="login-password" placeholder="رمز عبور">
+          <span class="help-block login-error">رمزعبور معتبر نیست</span>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="checkbox icheck">
+              <label>
+                <input type="checkbox"> مرا به خاطر بسپار
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-primary btn-block btn-flat" onclick="login()">ورود</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center">
+        <p>- یا -</p>
+        <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> ورود با
+          گوگل</a>
+      </div>
+      <!-- /.social-auth-links -->
+
+      <a href="#">رمز عبورم را فراموش کرده ام.</a><br>
+      <a href="register.html" class="text-center">ثبت نام</a>
+
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+  <!-- /.login-box -->
+
+  {{/inline}}
+
+  {{/base}}

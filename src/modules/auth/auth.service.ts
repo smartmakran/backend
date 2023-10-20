@@ -12,6 +12,7 @@ import {
   RegisterResponseDto,
 } from './dto';
 import { JwtPayload } from './interface/jwt-payload.interface';
+import { PageRenderingResponseDto } from 'shared/dto/page-rendering-response.dto';
 
 export class AuthService {
   constructor(
@@ -19,11 +20,12 @@ export class AuthService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async loginPage(): Promise<any> {
-    return { title: 'Login' };
+  async loginPage(): Promise<PageRenderingResponseDto> {
+    return { title: 'صفحه ورود', script: 'login' };
   }
 
   async loginAction(payload: LoginBodyDto): Promise<LoginResponseDto> {
+    console.log('payload', payload);
     const user = await this.userModel.findOne({ phone: payload.phone });
     if (!user || !this.comparePassword(payload.password, user.password)) {
       throw new UnauthorizedException('کاربری با این مشخصات یافت نشد.');

@@ -12,6 +12,7 @@ import {
   NestExpressApplication,
 } from '@nestjs/platform-express';
 import { join } from 'path';
+import * as hbs from 'hbs';
 
 if (process.env.NODE_ENV === 'production') {
   addAliases({
@@ -42,6 +43,10 @@ async function bootstrap() {
     app.use(express.json({ limit: '5mb' }));
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
+
+    hbs.registerPartials(join(__dirname, '..', 'views/partials'));
+    hbs.registerPartials(join(__dirname, '..', 'views/layout'));
+
     app.setViewEngine('hbs');
 
     mongoose.set('debug', true);
