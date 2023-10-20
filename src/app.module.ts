@@ -23,7 +23,7 @@ import { ManualMonitoringModule } from '@modules/manualMonitoring/manualMonitori
       ),
     }),
     MongooseModule.forRoot(
-      `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`,
+      `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`,
     ),
     AuthModule,
     DashboardModule,
